@@ -1,0 +1,3 @@
+goodlistens - share and discover music
+
+A web application written with Ruby on Rails dedicated to sharing and discovering new music.
