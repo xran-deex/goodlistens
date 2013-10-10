@@ -8,7 +8,8 @@ gem 'rails', '3.2.14'
 gem 'sqlite3'
 
 gem 'omniauth'
-gem 'omniauth-facebook'
+gem 'omniauth-oauth2', '1.0.2'
+gem 'omniauth-facebook', '1.4.0'
 gem 'omniauth-google-oauth2'
 gem 'devise'
 
