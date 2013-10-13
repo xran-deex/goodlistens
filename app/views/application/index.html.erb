@@ -19,3 +19,13 @@
 <% if not user_signed_in? %>
   <%= link_to "Sign in", new_user_session_path %>  
 <% end %>
+
+<div style='margin-top: 20px;'>
+<%= form_tag 'web_service/get_artist', method: 'get', class: 'form col-md-4' do %>
+  <%= label_tag :q, 'Search for an Artist:' %>
+  <br/>
+  <%= text_field_tag :q, nil, :class=>'form-control' %>
+  <br/>
+  <%= submit_tag 'Search', :class=>'btn' %>
+<% end %>
+</div>

@@ -12,6 +12,7 @@ gem 'omniauth-oauth2', '1.0.2'
 gem 'omniauth-facebook', '1.4.0'
 gem 'omniauth-google-oauth2'
 gem 'devise'
+gem 'typhoeus'
 
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails', :branch => '3.0.0'
 # Gems used only for assets and not required

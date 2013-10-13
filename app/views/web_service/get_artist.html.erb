@@ -1,0 +1,12 @@
+<h2><%= @releases[0]['artist']['name'] %></h2>
+<table>
+    <tr>
+<% @image_urls.each_with_index do |url, i| %>
+<% if i % 4 == 0 && i != 0 %>
+        </tr><tr>
+    <% end %>
+    <td><%= @album_titles[i] %><%= image_tag(url) %></td>
+    
+<% end %>
+</tr>
+</table>

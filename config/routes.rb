@@ -1,4 +1,6 @@
 Goodlistens::Application.routes.draw do
+  get "web_service/get_artist"
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   match 'auth/:provider/callback' => 'sessions#create', via: [:get, :post]
