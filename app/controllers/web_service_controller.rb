@@ -9,4 +9,9 @@ class WebServiceController < ApplicationController
         @album_titles << i['title']
     end
   end
+
+  def cache_artist
+    @result = WebService.cache_albums
+
+  end
 end

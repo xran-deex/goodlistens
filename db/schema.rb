@@ -11,12 +11,61 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131009224004) do
+ActiveRecord::Schema.define(:version => 20131020012003) do
+
+  create_table "album_reviews", :force => true do |t|
+    t.text     "review"
+    t.integer  "album_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "albums", :force => true do |t|
+    t.integer  "remote_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "artist_reviews", :force => true do |t|
+    t.integer  "artist_id"
+    t.integer  "user_id"
+    t.text     "review"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "artists", :force => true do |t|
+    t.integer  "remote_id"
+    t.integer  "local_artist_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
     t.string   "uid"
     t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "local_artists", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "track_reviews", :force => true do |t|
+    t.text     "review"
+    t.integer  "track_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "tracks", :force => true do |t|
+    t.integer  "remote_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
