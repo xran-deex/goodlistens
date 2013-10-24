@@ -1,13 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  artist_id: 1
+  remote_id: 1
   name: MyString
-  image: MyString
   popularity: 9.99
+  image: MyString
+  url: MyString
 
 two:
-  artist_id: 1
+  remote_id: 1
   name: MyString
-  image: MyString
   popularity: 9.99
+  image: MyString
+  url: MyString

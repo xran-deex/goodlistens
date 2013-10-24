@@ -2,6 +2,18 @@
 
 one:
   remote_id: 1
+  title: MyString
+  popularity: 9.99
+  year: 1
+  track_count: 1
+  references: 
+  release_date: 2013-10-24
 
 two:
   remote_id: 1
+  title: MyString
+  popularity: 9.99
+  year: 1
+  track_count: 1
+  references: 
+  release_date: 2013-10-24

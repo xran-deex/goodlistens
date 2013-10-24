@@ -2,6 +2,20 @@
 
 one:
   remote_id: 1
+  title: MyString
+  popularity: 9.99
+  duration: 1
+  url: MyString
+  track_num: 1
+  references: 
+  references: 
 
 two:
   remote_id: 1
+  title: MyString
+  popularity: 9.99
+  duration: 1
+  url: MyString
+  track_num: 1
+  references: 
+  references: 
