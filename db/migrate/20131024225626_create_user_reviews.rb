@@ -1,12 +1,13 @@
 class CreateUserReviews < ActiveRecord::Migration
   def change
-    create_table :user_reviews do |t|
+    create_table :reviews do |t|
       t.references :user
-      t.references :reviewable_item
+      t.references :reviewable, polymorphic: true
+      t.text    :review
 
       t.timestamps
     end
-    add_index :user_reviews, :user_id
-    add_index :user_reviews, :reviewable_item_id
+    add_index :reviews, :user_id
+    add_index :reviews, :reviewable_id
   end
 end

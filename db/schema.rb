@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(:version => 20131024225626) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "reviews", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "reviewable_id"
+    t.string   "reviewable_type"
+    t.text     "review"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "reviews", ["reviewable_id"], :name => "index_reviews_on_reviewable_id"
+  add_index "reviews", ["user_id"], :name => "index_reviews_on_user_id"
+
   create_table "tracks", :force => true do |t|
     t.integer  "remote_id"
     t.string   "title"
@@ -62,16 +74,6 @@ ActiveRecord::Schema.define(:version => 20131024225626) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  create_table "user_reviews", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "reviewable_item_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
-
-  add_index "user_reviews", ["reviewable_item_id"], :name => "index_user_reviews_on_reviewable_item_id"
-  add_index "user_reviews", ["user_id"], :name => "index_user_reviews_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "provider"

@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   has_many :artist_reviews
   has_many :artists
+  has_many :reviews
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
