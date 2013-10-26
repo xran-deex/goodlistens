@@ -13,6 +13,14 @@ class User < ActiveRecord::Base
   has_many :artist_reviews
   has_many :artists
   has_many :reviews
+  has_and_belongs_to_many :friends, :join_table =>'friendships', 
+    :foreign_key => 'left_user_id', :association_foreign_key =>'right_user_id', :class_name=>'User'
+    #:insert_sql => proc {|record| %{'insert into friendships values (#{id}, #{record.id})'} },
+    #:insert_sql => proc {|record| %{'insert into friendships select #{id} as left_user_id, #{record.id} as right_user_id union select #{record.id}, #{id}'} },
+    #:delete_sql => proc {|record| 'delete from friendships where (left_user_id = #{id} and right_user_id = #{record.id}) or 
+     #               (left_user_id = #{record.id} and right_user_id = #{id})'},
+    #:finder_sql => proc {|record| 'select users.* from friendships left outer join users on 
+      #                friendships.right_user_id = users.id where friendships.left_user_id = #{id}'}
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|

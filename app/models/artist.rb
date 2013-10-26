@@ -1,4 +1,4 @@
 class Artist < ActiveRecord::Base
-  attr_accessible :image, :name, :popularity, :remote_id, :url
+  attr_accessible :remote_id
   has_many :reviews, :as => :reviewable 
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  popularity: 9.99
+  url: MyString
+  image: MyString
+
+two:
+  name: MyString
+  popularity: 9.99
+  url: MyString
+  image: MyString

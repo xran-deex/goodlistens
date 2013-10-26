@@ -11,28 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131024225626) do
+ActiveRecord::Schema.define(:version => 20131026212142) do
 
   create_table "albums", :force => true do |t|
-    t.integer  "remote_id"
-    t.string   "title"
-    t.decimal  "popularity"
-    t.integer  "year"
-    t.integer  "track_count"
-    t.integer  "artist_id"
-    t.date     "release_date"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer "remote_id"
   end
 
   create_table "artists", :force => true do |t|
-    t.integer  "remote_id"
-    t.string   "name"
-    t.decimal  "popularity"
-    t.string   "image"
-    t.string   "url"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer "remote_id"
   end
 
   create_table "authorizations", :force => true do |t|
@@ -43,12 +29,47 @@ ActiveRecord::Schema.define(:version => 20131024225626) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "reviewable_items", :force => true do |t|
-    t.integer  "reviewable_id"
-    t.string   "reviewable_type"
+  create_table "friendships", :id => false, :force => true do |t|
+    t.integer "left_user_id"
+    t.integer "right_user_id"
+  end
+
+  create_table "local_albums", :force => true do |t|
+    t.string   "title"
+    t.date     "release_date"
+    t.integer  "track_count"
+    t.integer  "year"
+    t.decimal  "popularity"
+    t.integer  "local_artist_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  add_index "local_albums", ["local_artist_id"], :name => "index_local_albums_on_local_artist_id"
+
+  create_table "local_artists", :force => true do |t|
+    t.string   "name"
+    t.decimal  "popularity"
+    t.string   "url"
+    t.string   "image"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "local_tracks", :force => true do |t|
+    t.string   "title"
+    t.integer  "track_num"
+    t.string   "url"
+    t.integer  "local_album_id"
+    t.integer  "local_artist_id"
+    t.integer  "duration"
+    t.decimal  "popularity"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "local_tracks", ["local_album_id"], :name => "index_local_tracks_on_local_album_id"
+  add_index "local_tracks", ["local_artist_id"], :name => "index_local_tracks_on_local_artist_id"
 
   create_table "reviews", :force => true do |t|
     t.integer  "user_id"
@@ -57,22 +78,14 @@ ActiveRecord::Schema.define(:version => 20131024225626) do
     t.text     "review"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "rating"
   end
 
   add_index "reviews", ["reviewable_id"], :name => "index_reviews_on_reviewable_id"
   add_index "reviews", ["user_id"], :name => "index_reviews_on_user_id"
 
   create_table "tracks", :force => true do |t|
-    t.integer  "remote_id"
-    t.string   "title"
-    t.decimal  "popularity"
-    t.integer  "duration"
-    t.string   "url"
-    t.integer  "track_num"
-    t.integer  "artist_id"
-    t.integer  "album_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer "remote_id"
   end
 
   create_table "users", :force => true do |t|

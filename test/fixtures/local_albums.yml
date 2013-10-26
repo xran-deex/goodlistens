@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  release_date: 2013-10-26
+  track_count: 1
+  year: 1
+  popularity: 9.99
+  local_artist: 
+
+two:
+  title: MyString
+  release_date: 2013-10-26
+  track_count: 1
+  year: 1
+  popularity: 9.99
+  local_artist: 

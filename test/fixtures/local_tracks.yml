@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  track_num: 1
+  url: MyString
+  local_album: 
+  local_artist: 
+  duration: 1
+  popularity: 9.99
+
+two:
+  title: MyString
+  track_num: 1
+  url: MyString
+  local_album: 
+  local_artist: 
+  duration: 1
+  popularity: 9.99
