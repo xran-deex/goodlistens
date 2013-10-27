@@ -1,0 +1,21 @@
+
+<%= form_for("user", :url => user_session_path, html: {class: 'form col-md-4'}) do |f| %>
+  <h3>New here? Create a free account!</h3>
+  <div class='form-group'>
+    <%= f.label :email %>
+    <%= f.text_field :email, class: 'form-control' %>
+  </div>
+  <div class='form-group'>
+    <%= f.label :password %>
+    <%= f.password_field :password, class: 'form-control' %>
+  </div>
+  <div class='checkbox'>
+  <%= f.check_box :remember_me %>
+  <%= f.label :remember_me %>
+  </div>
+  <%= f.submit 'Sign in', class: 'btn' %>
+  <%= link_to "Forgot your password?", new_password_path('user') %>
+  <br/>
+  <%= link_to image_tag('Red-signin-Short-base-32dp.png'), user_omniauth_authorize_path(:google_oauth2) %>
+  <%= link_to image_tag('facebook_32.png'), user_omniauth_authorize_path(:facebook) %>
+<% end %>

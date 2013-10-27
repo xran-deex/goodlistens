@@ -1,4 +1,8 @@
+<div class='col-md-8'>
 <h1>Welcome to goodlistens!</h1>
+<h4>goodlistens provides a social network
+for people interested in sharing their interests in music.</h4>
+<h2><%= link_to 'Take a tour' %></h2>
 <div id="user-widget">
 <% if user_signed_in? %>
   <% if current_user.provider == 'facebook' %>
@@ -9,23 +13,9 @@
     Welcome <strong><%= current_user.name %></strong>!
     <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
   <% end %>
-  <% else %>
-    <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
-    <br/>
-    <%= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
 <% end %>
 </div>
+</div>
+<%= render 'form' %>
 
-<% if not user_signed_in? %>
-  <%= link_to "Sign in", new_user_session_path %>  
-<% end %>
-
-<div style='margin-top: 20px;'>
-<%= form_tag 'web_service/get_artist', method: 'get', class: 'form col-md-4' do %>
-  <%= label_tag :q, 'Search for an Artist:' %>
-  <br/>
-  <%= text_field_tag :q, nil, :class=>'form-control' %>
-  <br/>
-  <%= submit_tag 'Search', :class=>'btn' %>
-<% end %>
 </div>

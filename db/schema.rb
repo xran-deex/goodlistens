@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131026212142) do
+ActiveRecord::Schema.define(:version => 20131027050423) do
 
   create_table "albums", :force => true do |t|
     t.integer "remote_id"
@@ -83,6 +83,16 @@ ActiveRecord::Schema.define(:version => 20131026212142) do
 
   add_index "reviews", ["reviewable_id"], :name => "index_reviews_on_reviewable_id"
   add_index "reviews", ["user_id"], :name => "index_reviews_on_user_id"
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "tracks", :force => true do |t|
     t.integer "remote_id"
