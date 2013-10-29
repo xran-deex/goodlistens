@@ -5,14 +5,8 @@ for people interested in sharing their interests in music.</h4>
 <h2><%= link_to 'Take a tour' %></h2>
 <div id="user-widget">
 <% if user_signed_in? %>
-  <% if current_user.provider == 'facebook' %>
     Welcome <strong><%= current_user.name %></strong>!
     <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-  <% end %>
-  <% if current_user.provider == 'google_oauth2' %>
-    Welcome <strong><%= current_user.name %></strong>!
-    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-  <% end %>
 <% end %>
 </div>
 </div>

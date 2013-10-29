@@ -11,6 +11,8 @@ Goodlistens::Application.routes.draw do
 
   get "login/index"
 
+  get 'home', to: 'users#index', as: :user
+
   root :to => 'application#index'
 
   # The priority is based upon order of creation:

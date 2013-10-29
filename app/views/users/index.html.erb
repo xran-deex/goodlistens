@@ -1,0 +1,17 @@
+<div class='container'>
+<% if user_signed_in? %>
+<h2><%= current_user.name %></h2>
+<% end %>
+<h5>Your friends:</h5>
+<ul class='list-unstyled'>
+    <% current_user.friends.each do |f| %>
+        <li><%= f.name %></li>
+    <% end %>
+</ul>
+<h5>Recommendations:</h5>
+<ul class='list-unstyled'>
+    <% @recommends.each do |f| %>
+        <li><%= f.name %></li>
+    <% end %>
+</ul>
+</div>
