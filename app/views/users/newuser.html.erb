@@ -1,0 +1,14 @@
+<div class='container'>
+<% if user_signed_in? %>
+<h2><%= current_user.name %></h2>
+<% end %>
+<table>
+    <tr>
+        <% @albums.each_with_index do |album, i| %>
+            <% if i % 4 == 0 && i != 0 %>
+                </tr><tr>
+            <% end %>
+        <td><%= album.title %><%= image_tag(album.image(200)) %></td>
+    <% end %>
+</table>
+</div>

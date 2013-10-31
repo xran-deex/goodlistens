@@ -9,6 +9,8 @@ class UsersController < ApplicationController
   end
 
   def newuser
+    client = Sevendigital::Client.new
+    @albums = client.release.get_top_by_tag('rock', :pageSize=>'100')
   end
 
 end
