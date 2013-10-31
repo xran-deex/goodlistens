@@ -12,6 +12,7 @@ Goodlistens::Application.routes.draw do
   get "login/index"
 
   get 'home', to: 'users#index', as: :user
+  get 'newuser', to: 'users#newuser', as: :newuser
 
   root :to => 'application#index'
 
