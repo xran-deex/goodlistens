@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require_tree .
 //= require twitter/bootstrap
+
+$(function(){
+    $('.star-rating-control').attr('class', 'center-block');
+});

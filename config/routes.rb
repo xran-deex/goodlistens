@@ -13,6 +13,7 @@ Goodlistens::Application.routes.draw do
 
   get 'home', to: 'users#index', as: :user
   get 'newuser', to: 'users#newuser', as: :newuser
+  post 'newuser/rate', to: 'users#rate', as: :rate
 
   root :to => 'application#index'
 

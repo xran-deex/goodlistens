@@ -1,14 +1,66 @@
 <div class='container'>
-<% if user_signed_in? %>
-<h2><%= current_user.name %></h2>
-<% end %>
-<table>
+<ul class='list-inline'>
+    <li><%= link_to 'Rock', newuser_path(:genre => :rock) %></li>
+    <li><%= link_to 'Pop', newuser_path(:genre => :pop) %></li>
+    <li><%= link_to 'Country', newuser_path(:genre => :country) %></li>
+    <li><%= link_to 'Classical', newuser_path(:genre => :classical) %></li>
+    <li><%= link_to 'Punk', newuser_path(:genre => :punk) %></li>
+    <li><%= link_to 'Rap', newuser_path(:genre => :rap) %></li>
+    <li><%= link_to 'R&B', newuser_path(:genre => 'r&b') %></li>
+    <li><%= link_to 'Jazz', newuser_path(:genre => :jazz) %></li>
+</ul>
+<table class='table'>
     <tr>
         <% @albums.each_with_index do |album, i| %>
             <% if i % 4 == 0 && i != 0 %>
                 </tr><tr>
             <% end %>
-        <td><%= album.title %><%= image_tag(album.image(200)) %></td>
+        <td class='text-primary'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%><%= image_tag(album.image(200)) %>
+        <div>
+            <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
+            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
+            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='3' title='Good'/>
+            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='4' title='Great'/>
+            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
+            <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
+        </div>
+    <% @review = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
+    <% if @review[0] != nil %>
+    <script>
+        $(function(){
+                var rating = <%=@review[0].rating %>;
+                $('.star<%=i%>').each(function(index){
+                    if ( rating === index+1){
+                        $(this).attr('checked', 'checked');
+                    }
+                }).rating();    
+            }
+        );
+    </script>
+    <% else %>
+    <script>
+        $(function(){
+            $('.star<%=i%>').rating({ 
+                focus: function(value, link){ 
+                    var tip = $('#hover<%=i%>'); 
+                    tip[0].data = tip[0].data || tip.html(); 
+                    tip.html(link.title || 'value: '+value); 
+                }, 
+                blur: function(value, link){ 
+                    var tip = $('#hover<%=i%>'); 
+                    $('#hover<%=i%>').html(tip[0].data || '');
+                },
+                callback: function(value, link){ 
+                    $.ajax({
+                        url: 'newuser/rate', type: 'post', data: {album: '<%= album.id %>', rating: value}
+                    });
+                }
+            });
+        });
+    </script>
+    <% end %>
+    </td>
     <% end %>
 </table>
+
 </div>
