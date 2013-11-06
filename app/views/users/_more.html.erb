@@ -1,10 +1,5 @@
-<div class='container'>
-<ul class='pager'>
-    <li class='previous'><a href='#' id='prev'>&larr; Prev</a></li>
-    <li class='next'><a href='#' id='next'>Next &rarr;</a></li>
-</ul>
 <table class='table'>
-    <tr>
+<tr>
         <% @albums.each_with_index do |album, i| %>
             <% if i % 4 == 0 && i != 0 %>
                 </tr><tr>
@@ -56,50 +51,3 @@
     </td>
     <% end %>
 </table>
-</div>
-<ul class='pager'>
-    <li class='previous'><a href='#' id='prev'>&larr; Prev</a></li>
-    <li class='next'><a href='#' id='next'>Next &rarr;</a></li>
-</ul>
-<script>
-$(function(){
-    $('.next').click(function(e){
-        e.preventDefault();
-        $.ajax({
-            method: 'get',
-            url: 'newuser/next_albums',
-            data: {genre: '<%= @genre %>'},
-            success: function(data){
-                $('.table').fadeOut('slow', function(){
-                    $(this).replaceWith(data);
-                    $('.table').fadeIn('slow');
-                });
-            }
-        });
-    });
-    $('.previous').click(function(e){
-        e.preventDefault();
-        $.ajax({
-            method: 'get',
-            url: 'newuser/prev_albums',
-            data: {genre: '<%= @genre %>'},
-            success: function(data){
-                $('.table').fadeOut('slow', function(){
-                    $(this).replaceWith(data);
-                    $('.table').fadeIn('slow');
-                });
-            }
-        });
-    });
-});
-</script>
-<ul class='list-inline'>
-    <li><%= link_to 'Rock', newuser_path(:genre => :rock) %></li>
-    <li><%= link_to 'Pop', newuser_path(:genre => :pop) %></li>
-    <li><%= link_to 'Country', newuser_path(:genre => :country) %></li>
-    <li><%= link_to 'Classical', newuser_path(:genre => :classical) %></li>
-    <li><%= link_to 'Punk', newuser_path(:genre => :punk) %></li>
-    <li><%= link_to 'Rap', newuser_path(:genre => :rap) %></li>
-    <li><%= link_to 'R&B', newuser_path(:genre => 'r&b') %></li>
-    <li><%= link_to 'Jazz', newuser_path(:genre => :jazz) %></li>
-</ul>

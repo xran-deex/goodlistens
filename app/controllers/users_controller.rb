@@ -11,9 +11,38 @@ class UsersController < ApplicationController
   def newuser
     client = Sevendigital::Client.new
     @albums = []
-    if params[:genre] != nil
-        @albums = client.release.get_top_by_tag(params[:genre], :pageSize=>'100')
+    if !session[:albumsPage]
+      page = session[:albumsPage] = 1;
     end
+    if params[:genre] != nil
+      session[:genre] = params[:genre]
+      @genre = session[:genre]
+        @albums = client.release.get_top_by_tag(params[:genre], :pageSize=>'12', :page=>page)
+    end
+  end
+
+  def next_albums
+    client = Sevendigital::Client.new
+    @albums = []
+    page = session[:albumsPage]
+    page = page + 1;
+    session[:albumsPage] = page;
+    if params[:genre] != nil
+        @albums = client.release.get_top_by_tag(session[:genre], :pageSize=>'12', :page=>page)
+    end
+    render :partial => 'more'
+  end
+
+  def prev_albums
+    client = Sevendigital::Client.new
+    @albums = []
+    page = session[:albumsPage]
+    page = page - 1;
+    session[:albumsPage] = page;
+    if params[:genre] != nil
+        @albums = client.release.get_top_by_tag(session[:genre], :pageSize=>'12', :page=>page)
+    end
+    render :partial => 'more'
   end
 
   def rate
