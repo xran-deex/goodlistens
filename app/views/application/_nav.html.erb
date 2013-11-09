@@ -1,10 +1,16 @@
 <nav class='navbar navbar-default'>
     <div class='navbar-header'>
-        <a href='#' class='navbar-brand'>goodlistens</a>
+        <a href='/' class='navbar-brand'>goodlistens</a>
     </div>
     <ul class='nav navbar-nav'>
-        <li class='active'><a href="#">Home</a>
+        <li class='active'><a href="/home">Home</a>
     </ul>
+    <form class="navbar-form navbar-left" role="search" method='post' action='search'>
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search" name='search'>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
     <ul class='nav navbar-nav pull-right'>
         <% if user_signed_in? %>
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def index
     client = Sevendigital::Client.new
     @recommends = client.artist.get_similar(client.artist.search('Green Day')[0].id)
-    #@recommends = []
+    @activity = []
   end
 
   def newuser

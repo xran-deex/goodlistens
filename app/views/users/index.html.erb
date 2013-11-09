@@ -1,17 +1,30 @@
 <div class='container'>
+<div class='row col-md-10'>
 <% if user_signed_in? %>
-<h2><%= current_user.name %></h2>
+<h3>Welcome, <%= current_user.name %></h3>
 <% end %>
-<h5>Your friends:</h5>
-<ul class='list-unstyled'>
-    <% current_user.friends.each do |f| %>
-        <li><%= f.name %></li>
-    <% end %>
-</ul>
-<h5>Recommendations:</h5>
+
+<h4>Recommendations:</h4>
 <ul class='list-unstyled'>
     <% @recommends.each do |f| %>
         <li><%= f.name %></li>
     <% end %>
 </ul>
+<h4>Recent activity: </h4>
+<ul class='list-unstyled'>
+    <% @activity.each do |f| %>
+        <li><%= f.name %></li>
+    <% end %>
+</ul>
+</div>
+<div class='aside col-md-2'>
+<h4>Friends:</h4>
+<ul class='list-unstyled'>
+    <% current_user.friends.each do |f| %>
+        <li><%= f.name %></li>
+    <% end %>
+    <li>akjshd</li>
+    <li>weroiuf</li>
+</ul>
+</div>
 </div>
