@@ -4,8 +4,16 @@ class UsersController < ApplicationController
 
   def index
     client = Sevendigital::Client.new
-    @recommends = client.artist.get_similar(client.artist.search('Green Day')[0].id)
+    top_album = current_user.reviews.where('rating>4').limit(1)[0].reviewable.remote_id
+    top_artist = client.release.get_details(top_album).artist
+    @recommends = client.artist.get_similar(top_artist.id)
     @activity = []
+    @recents = []
+    @reviews = current_user.reviews.limit(5)
+    @reviews.each do |f|
+      #@reviews << f.reviewable
+      @recents << client.release.get_details(f.reviewable.remote_id)
+    end
   end
 
   def newuser

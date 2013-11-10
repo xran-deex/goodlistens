@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 
   has_many :artist_reviews
   has_many :artists
-  has_many :reviews
+  has_many :reviews, order: 'created_at DESC'
   has_and_belongs_to_many :friends, :join_table =>'friendships', 
     :foreign_key => 'left_user_id', :association_foreign_key =>'right_user_id', :class_name=>'User',
     :insert_sql => proc { |record| %{INSERT INTO

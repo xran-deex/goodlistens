@@ -8,13 +8,13 @@ class ApplicationController < ActionController::Base
 
   def search
     client = Sevendigital::Client.new
-    @results = client.artist.search(params[:search], :pageSize=>'1')
+    @results = client.artist.search(params[:search], :pageSize=>'5')
   end
 
   def details
     client = Sevendigital::Client.new
     @artist = client.artist.get_details(params[:artist_id])
-    @albums = client.artist.get_releases(params[:artist_id], :pageSize=>'24')
+    @albums = client.artist.get_releases(params[:artist_id], :pageSize=>'100')
   end
 
   def rate

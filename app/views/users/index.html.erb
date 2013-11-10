@@ -1,22 +1,52 @@
 <div class='container'>
-<div class='row col-md-10'>
-<% if user_signed_in? %>
-<h3>Welcome, <%= current_user.name %></h3>
-<% end %>
+    <div class='row col-md-10'>
+        <% if user_signed_in? %>
+        <h3>Welcome, <%= current_user.name %></h3>
+        <% end %>
 
-<h4>Recommendations:</h4>
-<ul class='list-unstyled'>
-    <% @recommends.each do |f| %>
-        <li><%= f.name %></li>
-    <% end %>
-</ul>
-<h4>Recent activity: </h4>
-<ul class='list-unstyled'>
-    <% @activity.each do |f| %>
-        <li><%= f.name %></li>
-    <% end %>
-</ul>
-</div>
+        <h4>Recommendations:</h4>
+        <ul class='list-unstyled'>
+            <% @recommends.each do |f| %>
+                <li><%= f.name %></li>
+            <% end %>
+        </ul>
+        <h4>Recent activity: </h4>
+        <ul class='list-unstyled'>
+            <% @activity.each do |f| %>
+                <li><%= f.name %></li>
+            <% end %>
+        </ul>
+
+        <h4>Recent Ratings:</h4>
+        <ul class='list-unstyled'>
+            <% i = 0 %>
+            <% @reviews.zip(@recents).each do |r, a| %>
+                <li><%= a.artist.name %> - <%= a.title %>
+                <div class='inline'>
+                    <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
+                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
+                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='3' title='Good'/>
+                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='4' title='Great'/>
+                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
+                    <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
+                </div>
+                </li>
+                <script>
+                    $(function(){
+                            var rating = <%= r.rating %>;
+                            $('.star<%=i%>').each(function(index){
+                                if ( rating === index+1){
+                                    $(this).attr('checked', 'checked');
+                                }
+                            }).rating();    
+                        }
+                    );
+                </script>
+                <% i+=1 %>
+            <% end %>
+        </ul>
+
+    </div>
 <div class='aside col-md-2'>
 <h4>Friends:</h4>
 <ul class='list-unstyled'>
