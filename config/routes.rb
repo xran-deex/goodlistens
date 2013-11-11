@@ -14,6 +14,7 @@ Goodlistens::Application.routes.draw do
 
   get 'home', to: 'users#index', as: :user
   get 'newuser', to: 'users#newuser', as: :newuser
+  get 'browse', to: 'users#newuser'
   post 'newuser/rate', to: 'users#rate', as: :rate
   get 'newuser/next_albums', to: 'users#next_albums', as: :get_more
   get 'newuser/prev_albums', to: 'users#prev_albums', as: :get_less

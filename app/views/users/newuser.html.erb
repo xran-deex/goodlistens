@@ -1,8 +1,10 @@
 <div class='container'>
-<ul class='pager'>
-    <li class='previous'><a href='#' id='prev'>&larr; Prev</a></li>
-    <li class='next'><a href='#' id='next'>Next &rarr;</a></li>
-</ul>
+<% if params[:genre] %>
+    <ul class='pager'>
+        <li class='previous'><a href='#' id='prev'>&larr; Prev</a></li>
+        <li class='next'><a href='#' id='next'>Next &rarr;</a></li>
+    </ul>
+<% end %>
 <table class='table'>
     <tr>
         <% @albums.each_with_index do |album, i| %>
@@ -58,10 +60,15 @@
     <% end %>
 </table>
 </div>
-<ul class='pager'>
-    <li class='previous'><a href='#' id='prev'>&larr; Prev</a></li>
-    <li class='next'><a href='#' id='next'>Next &rarr;</a></li>
-</ul>
+<% if params[:genre] %>
+    <ul class='pager'>
+        <li class='previous'><a href='#' id='prev'>&larr; Prev</a></li>
+        <li class='next'><a href='#' id='next'>Next &rarr;</a></li>
+    </ul>
+<% end %>
+<% if !params[:genre] %>
+    <h2>Choose a genre below to browse and rate albums.</h2>
+<% end %>
 <script>
 $(function(){
     $('.next').click(function(e){
