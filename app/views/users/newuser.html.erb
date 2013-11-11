@@ -9,7 +9,8 @@
             <% if i % 4 == 0 && i != 0 %>
                 </tr><tr>
             <% end %>
-        <td class='text-primary'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%><%= image_tag(album.image(200)) %>
+        <td class='text-primary'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%>
+            <a href='album/details?remote_id=<%=album.id%>'><%= image_tag(album.image(200)) %></a>
         <div>
             <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
             <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>

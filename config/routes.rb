@@ -1,7 +1,5 @@
 Goodlistens::Application.routes.draw do
-  get "web_service/get_artist"
-  get 'web_service/cache_artist'
-  get 'web_service/cache_albums'
+  get "album/details"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 

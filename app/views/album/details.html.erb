@@ -1,0 +1,14 @@
+<div class='container'>
+    <h1>Album</h1>
+    <div class='col-md-8'>
+    <%= image_tag(@album.image(500)) %>
+    </div>
+    <div class='col-md-3'>
+        <p>Artist: <%= @album.artist.name %></p>
+        <ul class='list-unstyled'>
+            <% @album.get_tracks.each_with_index do |t, i| %>
+                <li><%= (i+1).to_s + '. ' + t.title %></li>
+            <% end %>
+        </ul>
+    </div>
+</div>

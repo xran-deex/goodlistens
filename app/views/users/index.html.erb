@@ -21,7 +21,7 @@
         <ul class='list-unstyled'>
             <% i = 0 %>
             <% @reviews.zip(@recents).each do |r, a| %>
-                <li><%= a.artist.name %> - <%= a.title %>
+                <li><%= a.artist.name %> - <a href='album/details?remote_id=<%=a.id%>'><%= a.title %></a>
                 <div class='inline'>
                     <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
                     <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
