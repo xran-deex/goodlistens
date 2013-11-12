@@ -1,14 +1,32 @@
 <div class='container'>
-    <h1>Album</h1>
-    <div class='col-md-8'>
+    <h1><%=  @album.title %></h1>
+    <div class='col-md-7'>
     <%= image_tag(@album.image(500)) %>
     </div>
-    <div class='col-md-3'>
+    <div class='col-md-4'>
         <p>Artist: <%= @album.artist.name %></p>
         <ul class='list-unstyled'>
             <% @album.get_tracks.each_with_index do |t, i| %>
                 <li><%= (i+1).to_s + '. ' + t.title %></li>
             <% end %>
         </ul>
+        <div>
+            <h4>Review this album:</h4>
+            <%=  form_for @review, url: {action: 'review', controller: 'album'}, method: 'post', html: {class: 'form'} do |f| %>
+                <div class='form-group'>
+                    <textarea name='review' class='form-control' cols='80' rows='4'></textarea>
+                </div>
+                <input type='hidden' name='album' value='<%=@album.id%>'>
+                <%= f.submit 'Submit', class: 'btn' %>
+            <% end %>
+        </div>
+        <div>
+            Reviews:
+            <% if @reviews != nil %>
+            <% @reviews.each do |r| %>
+                <h5><%= r.user.name %>:</h5><p><%= r.review %></p>
+            <% end %>
+            <% end %>
+        </div>
     </div>
 </div>

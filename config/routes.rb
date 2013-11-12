@@ -1,7 +1,7 @@
 Goodlistens::Application.routes.draw do
-  get "album/details"
+  get "album/details", as: :album_details
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "registrations" }
 
   match 'auth/:provider/callback' => 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
@@ -11,6 +11,7 @@ Goodlistens::Application.routes.draw do
   post 'search', to: 'application#search', as: :search
   get 'details', to: 'application#details', as: :details
   post 'rate', to: 'application#rate', as: :rate_album
+  post 'album/review', to: 'album#review', as: :review_album
 
   get 'home', to: 'users#index', as: :user
   get 'newuser', to: 'users#newuser', as: :newuser
