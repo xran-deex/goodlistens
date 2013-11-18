@@ -17,4 +17,6 @@
 
 $(function(){
     $('.star-rating-control').attr('class', 'center-block');
+    $('.alert-success').delay(1500).fadeOut('slow');
+    
 });

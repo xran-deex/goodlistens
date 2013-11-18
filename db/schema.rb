@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131027050423) do
+ActiveRecord::Schema.define(:version => 20131117231709) do
 
   create_table "albums", :force => true do |t|
     t.integer "remote_id"
@@ -29,10 +29,8 @@ ActiveRecord::Schema.define(:version => 20131027050423) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "friendships", :id => false, :force => true do |t|
-    t.integer "left_user_id"
-    t.integer "right_user_id"
-  end
+# Could not dump table "friendships" because of following StandardError
+#   Unknown type '' for column 'left_user_id'
 
   create_table "local_albums", :force => true do |t|
     t.string   "title"

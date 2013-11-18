@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
   def search
     client = Sevendigital::Client.new
     @results = client.artist.search(params[:search], :pageSize=>'5')
+    if @results.length == 1
+      redirect_to details_path(:artist_id=>@results[0].id)
+    end
   end
 
   def details
@@ -18,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def rate
-    puts params[:album]
+    #puts params[:album]
     review = Review.new
     review.user = current_user
     review.rating = params[:rating].to_i

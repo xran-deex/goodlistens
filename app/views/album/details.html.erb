@@ -1,17 +1,66 @@
 <div class='container'>
+    
     <h1><%=  @album.title %></h1>
     <div class='col-md-7'>
-    <%= image_tag(@album.image(500)) %>
+        <%= image_tag(@album.image(500)) %>
     </div>
-    <div class='col-md-4'>
-        <p>Artist: <%= @album.artist.name %></p>
+    <div class='col-md-5'>
+        <h2><%= @album.artist.name %></h2>
+        <% if user_signed_in? %> 
+        
+        <% end %>
         <ul class='list-unstyled'>
             <% @album.get_tracks.each_with_index do |t, i| %>
                 <li><%= (i+1).to_s + '. ' + t.title %></li>
             <% end %>
         </ul>
-        <div>
-            <h4>Review this album:</h4>
+    </div>
+    <div class='container' style='clear:both'>
+        <% if user_signed_in? %>
+        <h4 style='float:left;margin-right:10px'>Review this album:</h4>
+            <div style='margin-top:10px'>
+                    <input type='radio' name='star1' class='star1 required' value='1' title='Hate it'/>
+                    <input type='radio' name='star1' class='star1' value='2' title='Not very good'/>
+                    <input type='radio' name='star1' class='star1' value='3' title='Good'/>
+                    <input type='radio' name='star1' class='star1' value='4' title='Great'/>
+                    <input type='radio' name='star1' class='star1' value='5' title='Awesome!'/>
+                    <span id="hover" style="margin:0 0 0 20px;"></span>
+                </div>
+                <% @rating = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(@album.id)) %>
+            <% if @rating[0] != nil and @rating[0].rating != nil %>
+            <script>
+                $(function(){
+                        var rating = <%=@rating[0].rating %>;
+                        $('.star1').each(function(index){
+                            if ( rating === index+1){
+                                $(this).attr('checked', 'checked');
+                            }
+                        }).rating();    
+                    }
+                );
+            </script>
+            <% else %>
+            <script>
+                $(function(){
+                    $('.star1').rating({ 
+                        focus: function(value, link){ 
+                            var tip = $('#hover'); 
+                            tip[0].data = tip[0].data || tip.html(); 
+                            tip.html(link.title || 'value: '+value); 
+                        }, 
+                        blur: function(value, link){ 
+                            var tip = $('#hover'); 
+                            $('#hover').html(tip[0].data || '');
+                        },
+                        callback: function(value, link){ 
+                            $.ajax({
+                                url: '/rate', type: 'post', data: {album: '<%= @album.id %>', rating: value}
+                            });
+                        }
+                    });
+                });
+            </script>
+            <% end %>
             <%=  form_for @review, url: {action: 'review', controller: 'album'}, method: 'post', html: {class: 'form'} do |f| %>
                 <div class='form-group'>
                     <textarea name='review' class='form-control' cols='80' rows='4'></textarea>
@@ -19,14 +68,59 @@
                 <input type='hidden' name='album' value='<%=@album.id%>'>
                 <%= f.submit 'Submit', class: 'btn' %>
             <% end %>
-        </div>
+        <% end %>
         <div>
-            Reviews:
+            <h3>Reviews:</h3>
             <% if @reviews != nil %>
             <% @reviews.each do |r| %>
-                <h5><%= r.user.name %>:</h5><p><%= r.review %></p>
+                <% if r.review != nil %>
+                    <% if r.user.id != current_user.id %>
+                    <a 
+                        <% if current_user.friends.include?(r.user) %>
+                            href='<%= other_user_path(r.user) %>'
+                        <% else %> 
+                            data-target='#addFriend<%= r.user.id %>'
+                        <% end %>
+                        data-toggle='modal'><h5><%= r.user.name %></a>:</h5><p><%= r.review %></p>
+                    <div class="modal fade" id='addFriend<%= r.user.id %>'>
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Add User as Friend</h4>
+                          </div>
+                          <div class="modal-body">
+                            <p>Do you want to add this user as a friend?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" id='yes<%= r.user.id %>' data-id='<%= r.user.id %>'>Yes</button>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    <script type="text/javascript">
+                        $('#addFriend<%= r.user.id %>').on('show.bs.modal', function(){
+                            <% if current_user.friends.include?(r.user) %>
+                                $('#addFriend<%= r.user.id %>').modal('hide');
+                            <% end %>
+                        });
+                        $('#yes<%= r.user.id %>').click(function(){
+                            var id = $(this).data('id');
+                            
+                            $.get('/user/addfriend?user_id='+id, function(){
+                                $('#addFriend<%= r.user.id %>').modal('hide');
+                                window.location = '/home';
+                            });
+                        });
+                    </script>
+                    <% else %>
+                    <h5><%= r.user.name %></a>:</h5><p><%= r.review %></p>
+                    <% end %>
+                <% end %>
             <% end %>
             <% end %>
         </div>
+        
     </div>
 </div>

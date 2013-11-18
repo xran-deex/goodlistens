@@ -1,0 +1,15 @@
+
+<%= form_for(current_user, :url => add_name_path(current_user), html: {class: 'form col-md-offset-4 col-md-4'}) do |f| %>
+    <h2>User information</h2>
+  <p>Please supply the following information</p>
+  <div class='form-group'>
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, class: 'form-control' %>
+  </div>
+  <div class='form-group'>
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, class: 'form-control' %>
+  </div>
+  <div><%= f.submit 'Submit', class: 'btn btn-primary' %></div>
+  <br/>
+<% end %>

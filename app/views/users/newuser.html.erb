@@ -21,11 +21,11 @@
             <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
             <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
         </div>
-    <% @review = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
-    <% if @review[0] != nil %>
+    <% review = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
+    <% if review[0] != nil and review[0].rating != nil %>
     <script>
         $(function(){
-                var rating = <%=@review[0].rating %>;
+                var rating = <%=review[0].rating %>;
                 $('.star<%=i%>').each(function(index){
                     if ( rating === index+1){
                         $(this).attr('checked', 'checked');

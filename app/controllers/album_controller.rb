@@ -13,8 +13,8 @@ class AlbumController < ApplicationController
   def review
     @review = Review.new
     @review.user = current_user
-    album = Album.find_or_create_by_remote_id(params[:album])
-    @review.reviewable = album
+    @album = Album.find_or_create_by_remote_id(params[:album])
+    @review.reviewable = @album
     @review.review = params[:review]
     @review.save
     redirect_to album_details_path(:remote_id=>params[:album])

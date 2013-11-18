@@ -12,11 +12,42 @@ class UsersController < ApplicationController
     end
     @activity = []
     @recents = []
-    @reviews = current_user.reviews.limit(5)
-    @reviews.each do |f|
-      #@reviews << f.reviewable
+    @ratings = current_user.reviews.limit(5)
+    @ratings.each do |f|
       if f.reviewable != nil
         @recents << client.release.get_details(f.reviewable.remote_id)
+      end
+    end
+    @reviews = current_user.reviews.where('review IS NOT NULL')
+    @recent_reviews = []
+    @reviews.each do |f|
+      if f.reviewable != nil
+        @recent_reviews << client.release.get_details(f.reviewable.remote_id)
+      end
+    end
+  end
+
+  def other_user
+    @user = User.find(params[:id])
+    client = Sevendigital::Client.new
+    top = @user.reviews.where('rating>4').limit(1)[0]
+    if top != nil
+      top_album = top.reviewable.remote_id
+      top_artist = client.release.get_details(top_album).artist
+      @recommends = client.artist.get_similar(top_artist.id)
+    end
+    @ratings = @user.reviews.limit(5)
+    @recents = []
+    @ratings.each do |f|
+      if f.reviewable != nil
+        @recents << client.release.get_details(f.reviewable.remote_id)
+      end
+    end
+    @reviews = @user.reviews.where('review IS NOT NULL')
+    @recent_reviews = []
+    @reviews.each do |f|
+      if f.reviewable != nil
+        @recent_reviews << client.release.get_details(f.reviewable.remote_id)
       end
     end
   end
@@ -24,6 +55,7 @@ class UsersController < ApplicationController
   def newuser
     client = Sevendigital::Client.new
     @albums = []
+
     if !session[:albumsPage]
       page = session[:albumsPage] = 1;
     end
@@ -65,6 +97,21 @@ class UsersController < ApplicationController
     review.rating = params[:rating].to_i
     review.reviewable = Album.find_or_create_by_remote_id(params[:album].to_i)
     review.save
+  end
+
+  def add_friend
+    current_user.friends << User.find(params[:user_id])
+    redirect_to user_path
+  end
+
+  def more_info
+
+  end
+
+  def add_name
+    current_user.name = params[:user][:first_name] + ' ' + params[:user][:last_name]
+    current_user.save
+    redirect_to new_user_path
   end
 
 end
