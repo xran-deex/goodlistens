@@ -17,6 +17,10 @@ class AlbumController < ApplicationController
     @review.reviewable = @album
     @review.review = params[:review]
     @review.save
-    redirect_to album_details_path(:remote_id=>params[:album])
+    @reviews = @album.reviews
+    respond_to do |format|
+      format.html { redirect_to album_details_path(:remote_id=>params[:album]) }
+      format.js {render 'review'}
+    end
   end
 end

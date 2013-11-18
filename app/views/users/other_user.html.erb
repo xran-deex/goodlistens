@@ -1,5 +1,5 @@
 <div class='container'>
-    <div class='row col-md-7'>
+    <div class='row col-md-10'>
         <h2><%= @user.name %></h2>
         <% if !@reviews.empty? and !@recent_reviews.empty? %>
         <h4>Recent activity: </h4>
@@ -45,21 +45,11 @@
         </ul>
 
     </div>
-    <div class='col-md-3'>
-        <h4>Recommendations:</h4>
-        <ul class='list-unstyled'>
-            <% if @recommends != nil %>
-            <% @recommends.each do |f| %>
-                <li><a href='/details?artist_id=<%= f.id %>'><%= f.name %></a></li>
-            <% end %>
-            <% end %>
-        </ul>
-    </div>
 <div class='aside col-md-2'>
 <h4>Friends:</h4>
 <ul class='list-unstyled'>
-    <% current_user.friends.each do |f| %>
-        <li><%= f.name %></li>
+    <% @user.friends.each do |f| %>
+        <li><a href='/user/<%= f.id %>'><%= f.name %></a></li>
     <% end %>
 </ul>
 </div>
