@@ -6,7 +6,7 @@
         <ul class='list-unstyled'>
             <% @reviews.zip(@recent_reviews).each do |r, a| %>
                 <% if a != nil and r.review != nil %>
-                <li><a href='album/details?remote_id=<%=r.reviewable.remote_id%>'><%= a.title %></a>: <%= r.review %><br/><%= image_tag(a.image(100)) %></li>
+                <li><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= a.title %></a>: <%= r.review %><br/><%= image_tag(a.image(100)) %></li>
                 <% end %>
             <% end %>
         </ul>
@@ -16,7 +16,7 @@
             <% i = 0 %>
             <% @ratings.zip(@recents).each do |r, a| %>
                 <% if a != nil and r.rating != nil %>
-                <li><%= a.artist.name %> - <a href='album/details?remote_id=<%=a.id%>'><%= a.title %></a>
+                <li><%= a.artist.name %> - <a href='/album/details?remote_id=<%=a.id%>'><%= a.title %></a>
                 <div class='inline'>
                     <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
                     <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>

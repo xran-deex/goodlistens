@@ -61,7 +61,7 @@
                 });
             </script>
             <% end %>
-            <%=  form_for @review, url: {action: 'review', controller: 'album'}, method: 'post', html: {class: 'form'} do |f| %>
+            <%=  form_for @review, remote: true, url: {action: 'review', controller: 'album'}, method: 'post', html: {class: 'form'} do |f| %>
                 <div class='form-group'>
                     <textarea name='review' class='form-control' cols='80' rows='4'></textarea>
                 </div>
@@ -70,7 +70,7 @@
             <% end %>
         <% end %>
         <div id='reviews'>
-            <%= render 'reviews' %>
+            <%= render 'album/reviews' %>
         </div>
         
     </div>
