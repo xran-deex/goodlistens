@@ -9,7 +9,7 @@
         <ul class='list-unstyled'>
             <% @reviews.zip(@recent_reviews)[0...5].each do |r, a| %>
                 <% if a != nil and r.review != nil %>
-                <li><a href='album/details?remote_id=<%=r.reviewable.remote_id%>'><%= a.title %></a>: <%= r.review %><br/><%= image_tag(a.image(100)) %></li>
+                <li><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= a.title %></a>: <%= r.review %><br/><%= image_tag(a.image(100)) %></li>
                 <% end %>
             <% end %>
         </ul>
@@ -19,28 +19,10 @@
             <% i = 0 %>
             <% @ratings.zip(@recents).each do |r, a| %>
                 <% if a != nil and r.rating != nil %>
-                <li><%= a.artist.name %> - <a href='album/details?remote_id=<%=a.id%>'><%= a.title %></a>
-                <div class='inline'>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='3' title='Good'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='4' title='Great'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
-                    <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
-                </div>
-                </li>
-
-                <script>
-                    $(function(){
-                            var rating = <%= r.rating %>;
-                            $('.star<%=i%>').each(function(index){
-                                if ( rating === index+1){
-                                    $(this).attr('checked', 'checked');
-                                }
-                            }).rating();    
-                        }
-                    );
-                </script>
+                    <li><%= a.artist.name %> - <a href='/album/details?remote_id=<%=a.id%>'><%= a.title %></a>
+                    <%= render '/stars_div', :i=>i %>
+                    </li>
+                    <%= render '/rating_js', :review=>r, :i=>i %>
                 <% end %>
                 <% i+=1 %>
             <% end %>

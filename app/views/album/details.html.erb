@@ -61,16 +61,21 @@
                 });
             </script>
             <% end %>
-            <%=  form_for @review, url: {action: 'review', controller: 'album'}, method: 'post', html: {class: 'form'} do |f| %>
+            <%=  form_for @review, url: {action: 'review', controller: 'rate_and_review'}, method: 'post', html: {class: 'form'} do |f| %>
                 <div class='form-group'>
                     <textarea name='review' class='form-control' cols='80' rows='4'></textarea>
                 </div>
-                <input type='hidden' name='album' value='<%=@album.id%>'>
+                <input type='hidden' name='album' value='<%= @album.id %>'>
                 <%= f.submit 'Submit', class: 'btn' %>
             <% end %>
         <% end %>
         <div id='reviews'>
-            <%= render 'reviews' %>
+            <h3>Reviews:</h3>
+            <% if @reviews != nil %>
+                <% @reviews.each do |r| %>
+                    <%= render 'reviews', :r => r %>
+                <% end %>
+            <% end %>
         </div>
         
     </div>

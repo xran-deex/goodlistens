@@ -90,15 +90,6 @@ class UsersController < ApplicationController
     render :partial => 'more'
   end
 
-  def rate
-    puts params[:album]
-    review = Review.new
-    review.user = current_user
-    review.rating = params[:rating].to_i
-    review.reviewable = Album.find_or_create_by_remote_id(params[:album].to_i)
-    review.save
-  end
-
   def add_friend
     current_user.friends << User.find(params[:user_id])
     redirect_to user_path

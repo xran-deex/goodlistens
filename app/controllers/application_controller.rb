@@ -20,15 +20,6 @@ class ApplicationController < ActionController::Base
     @albums = client.artist.get_releases(params[:artist_id], :pageSize=>'100')
   end
 
-  def rate
-    #puts params[:album]
-    review = Review.new
-    review.user = current_user
-    review.rating = params[:rating].to_i
-    review.reviewable = Album.find_or_create_by_remote_id(params[:album].to_i)
-    review.save
-  end
-
   #before_filter :authenticate_user!
 
   # def index
