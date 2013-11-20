@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     client = Sevendigital::Client.new
-    top = current_user.reviews.where('rating>4').limit(1)[0]
+    top = current_user.ratings.where('rating>4').limit(1)[0]
     if top != nil
       top_album = top.reviewable.remote_id
       top_artist = client.release.get_details(top_album).artist
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     end
     @activity = []
     @recents = []
-    @ratings = current_user.reviews.limit(5)
+    @ratings = current_user.ratings.limit(5)
     @ratings.each do |f|
       if f.reviewable != nil
         @recents << client.release.get_details(f.reviewable.remote_id)
@@ -30,13 +30,13 @@ class UsersController < ApplicationController
   def other_user
     @user = User.find(params[:id])
     client = Sevendigital::Client.new
-    top = @user.reviews.where('rating>4').limit(1)[0]
+    top = @user.ratings.where('rating>4').limit(1)[0]
     if top != nil
       top_album = top.reviewable.remote_id
       top_artist = client.release.get_details(top_album).artist
       @recommends = client.artist.get_similar(top_artist.id)
     end
-    @ratings = @user.reviews.limit(5)
+    @ratings = @user.ratings.limit(5)
     @recents = []
     @ratings.each do |f|
       if f.reviewable != nil

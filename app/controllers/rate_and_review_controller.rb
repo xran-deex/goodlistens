@@ -1,10 +1,10 @@
 class RateAndReviewController < ApplicationController
   def rate
-    review = Review.new
-    review.user = current_user
-    review.rating = params[:rating].to_i
-    review.reviewable = Album.find_or_create_by_remote_id(params[:album].to_i)
-    review.save
+    rating = Rating.new
+    rating.user = current_user
+    rating.rating = params[:rating].to_i
+    rating.reviewable = Album.find_or_create_by_remote_id(params[:album].to_i)
+    rating.save
   end
 
   def review
@@ -17,7 +17,7 @@ class RateAndReviewController < ApplicationController
     @reviews = @album.reviews
     respond_to do |format|
       format.html { redirect_to album_details_path(:remote_id=>params[:album]) }
-      format.js {render 'review'}
+      format.js 
     end
   end
 end

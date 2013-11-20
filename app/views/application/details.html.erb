@@ -10,8 +10,8 @@
             <a href='/album/details?remote_id=<%=album.id%>'><%= image_tag(album.image(200)) %></a>
             <%= render '/stars_div', :i => i %>
 
-            <% review = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
-            <%= render '/rating_js', :review => review[0], :i=>i, :album=>album %>
+            <% rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
+            <%= render '/rating_js', :rating => rating[0], :i=>i, :album=>album %>
         </td>
     <% end %>
 </table>

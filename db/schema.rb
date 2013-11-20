@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131117231709) do
+ActiveRecord::Schema.define(:version => 20131120232702) do
 
   create_table "albums", :force => true do |t|
     t.integer "remote_id"
@@ -69,6 +69,18 @@ ActiveRecord::Schema.define(:version => 20131117231709) do
   add_index "local_tracks", ["local_album_id"], :name => "index_local_tracks_on_local_album_id"
   add_index "local_tracks", ["local_artist_id"], :name => "index_local_tracks_on_local_artist_id"
 
+  create_table "ratings", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "reviewable_id"
+    t.string   "reviewable_type"
+    t.decimal  "rating",          :precision => 2, :scale => 1
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
+  end
+
+  add_index "ratings", ["reviewable_id"], :name => "index_ratings_on_reviewable_id"
+  add_index "ratings", ["user_id"], :name => "index_ratings_on_user_id"
+
   create_table "reviews", :force => true do |t|
     t.integer  "user_id"
     t.integer  "reviewable_id"
@@ -76,7 +88,6 @@ ActiveRecord::Schema.define(:version => 20131117231709) do
     t.text     "review"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.integer  "rating"
   end
 
   add_index "reviews", ["reviewable_id"], :name => "index_reviews_on_reviewable_id"

@@ -1,7 +1,7 @@
-<% if review != nil and review != nil %>
+<% if rating != nil and rating != nil %>
     <script>
         $(function(){
-                var rating = <%= review.rating %>;
+                var rating = <%= rating.rating %>;
                 $('.star<%=i%>').each(function(index){
                     if ( rating === index+1){
                         $(this).attr('checked', 'checked');
