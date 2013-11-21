@@ -1,0 +1,24 @@
+<% if album != nil and review.rating != nil %>
+    <li><%= album.artist.name %> - <a href='album/details?remote_id=<%=album.id%>'><%= album.title %></a>
+    <div class='inline'>
+        <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
+        <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
+        <input type='radio' name='star<%=i%>' class='star<%=i%>' value='3' title='Good'/>
+        <input type='radio' name='star<%=i%>' class='star<%=i%>' value='4' title='Great'/>
+        <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
+        <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
+    </div>
+    </li>
+
+    <script>
+        $(function(){
+                var rating = <%= review.rating %>;
+                $('.star<%=i%>').each(function(index){
+                    if ( rating === index+1){
+                        $(this).attr('checked', 'checked');
+                    }
+                }).rating();    
+            }
+        );
+    </script>
+<% end %>

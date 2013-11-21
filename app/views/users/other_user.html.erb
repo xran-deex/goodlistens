@@ -14,32 +14,9 @@
         <h4>Recent Ratings:</h4>
         <ul class='list-unstyled'>
             <% i = 0 %>
-            <% @ratings.zip(@recents).each do |r, a| %>
-                <% if a != nil and r.rating != nil %>
-                <li><%= a.artist.name %> - <a href='/album/details?remote_id=<%=a.id%>'><%= a.title %></a>
-                <div class='inline'>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='3' title='Good'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='4' title='Great'/>
-                    <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
-                    <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
-                </div>
-                </li>
-
-                <script>
-                    $(function(){
-                            var rating = <%= r.rating %>;
-                            $('.star<%=i%>').each(function(index){
-                                if ( rating === index+1){
-                                    $(this).attr('checked', 'checked');
-                                }
-                            }).rating();    
-                        }
-                    );
-                </script>
-                <% end %>
-                <% i+=1 %>
+            <% @ratings.zip(@recents).each do |review, album| %>
+                <%= render '/rate_album', :review => review, :album => album, :i => i %>
+                <% i += 1 %>
             <% end %>
             
         </ul>

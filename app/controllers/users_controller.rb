@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     client = Sevendigital::Client.new
-    top = current_user.reviews.where('rating>4').limit(1)[0]
+    top = current_user.ratings.where('rating>4').limit(1)[0]
     if top != nil
       top_album = top.reviewable.remote_id
       top_artist = client.release.get_details(top_album).artist
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     end
     @activity = []
     @recents = []
-    @ratings = current_user.reviews.limit(5)
+    @ratings = current_user.ratings.limit(5)
     @ratings.each do |f|
       if f.reviewable != nil
         @recents << client.release.get_details(f.reviewable.remote_id)
@@ -30,13 +30,13 @@ class UsersController < ApplicationController
   def other_user
     @user = User.find(params[:id])
     client = Sevendigital::Client.new
-    top = @user.reviews.where('rating>4').limit(1)[0]
+    top = @user.ratings.where('rating>4').limit(1)[0]
     if top != nil
       top_album = top.reviewable.remote_id
       top_artist = client.release.get_details(top_album).artist
       @recommends = client.artist.get_similar(top_artist.id)
     end
-    @ratings = @user.reviews.limit(5)
+    @ratings = @user.ratings.limit(5)
     @recents = []
     @ratings.each do |f|
       if f.reviewable != nil
@@ -88,15 +88,6 @@ class UsersController < ApplicationController
         @albums = client.release.get_top_by_tag(session[:genre], :pageSize=>'12', :page=>page)
     end
     render :partial => 'more'
-  end
-
-  def rate
-    puts params[:album]
-    review = Review.new
-    review.user = current_user
-    review.rating = params[:rating].to_i
-    review.reviewable = Album.find_or_create_by_remote_id(params[:album].to_i)
-    review.save
   end
 
   def add_friend

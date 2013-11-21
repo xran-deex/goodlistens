@@ -1,0 +1,34 @@
+<% if rating != nil and rating != nil %>
+    <script>
+        $(function(){
+                var rating = <%= rating.rating %>;
+                $('.star<%=i%>').each(function(index){
+                    if ( rating === index+1){
+                        $(this).attr('checked', 'checked');
+                    }
+                }).rating();    
+            }
+        );
+    </script>
+    <% else %>
+    <script>
+        $(function(){
+            $('.star<%=i%>').rating({ 
+                focus: function(value, link){ 
+                    var tip = $('#hover<%=i%>'); 
+                    tip[0].data = tip[0].data || tip.html(); 
+                    tip.html(link.title || 'value: '+value); 
+                }, 
+                blur: function(value, link){ 
+                    var tip = $('#hover<%=i%>'); 
+                    $('#hover<%=i%>').html(tip[0].data || '');
+                },
+                callback: function(value, link){ 
+                    $.ajax({
+                        url: '/rate', type: 'post', data: {album: '<%= album.id %>', rating: value}
+                    });
+                }
+            });
+        });
+    </script>
+<% end %>

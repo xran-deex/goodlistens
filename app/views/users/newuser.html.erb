@@ -13,16 +13,9 @@
             <% end %>
         <td class='text-primary'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%>
             <a href='album/details?remote_id=<%=album.id%>'><%= image_tag(album.image(200)) %></a>
-        <div>
-            <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='3' title='Good'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='4' title='Great'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
-            <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
-        </div>
-    <% review = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
-    <% if review[0] != nil and review[0].rating != nil %>
+        <%= render '/stars_div', :i => i %>
+    <% rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
+    <% if review[0] != nil and rating[0].rating != nil %>
     <script>
         $(function(){
                 var rating = <%=review[0].rating %>;

@@ -1,5 +1,5 @@
 $(function(){
-    // $().submit(function(e){
+    // $('form').submit(function(e){
     //     e.preventDefault();
     //     $.ajax({
     //         url: '/album/review',

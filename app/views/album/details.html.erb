@@ -18,59 +18,25 @@
     <div class='container' style='clear:both'>
         <% if user_signed_in? %>
         <h4 style='float:left;margin-right:10px'>Review this album:</h4>
-            <div style='margin-top:10px'>
-                    <input type='radio' name='star1' class='star1 required' value='1' title='Hate it'/>
-                    <input type='radio' name='star1' class='star1' value='2' title='Not very good'/>
-                    <input type='radio' name='star1' class='star1' value='3' title='Good'/>
-                    <input type='radio' name='star1' class='star1' value='4' title='Great'/>
-                    <input type='radio' name='star1' class='star1' value='5' title='Awesome!'/>
-                    <span id="hover" style="margin:0 0 0 20px;"></span>
-                </div>
-                <% @rating = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(@album.id)) %>
-            <% if @rating[0] != nil and @rating[0].rating != nil %>
-            <script>
-                $(function(){
-                        var rating = <%=@rating[0].rating %>;
-                        $('.star1').each(function(index){
-                            if ( rating === index+1){
-                                $(this).attr('checked', 'checked');
-                            }
-                        }).rating();    
-                    }
-                );
-            </script>
-            <% else %>
-            <script>
-                $(function(){
-                    $('.star1').rating({ 
-                        focus: function(value, link){ 
-                            var tip = $('#hover'); 
-                            tip[0].data = tip[0].data || tip.html(); 
-                            tip.html(link.title || 'value: '+value); 
-                        }, 
-                        blur: function(value, link){ 
-                            var tip = $('#hover'); 
-                            $('#hover').html(tip[0].data || '');
-                        },
-                        callback: function(value, link){ 
-                            $.ajax({
-                                url: '/rate', type: 'post', data: {album: '<%= @album.id %>', rating: value}
-                            });
-                        }
-                    });
-                });
-            </script>
-            <% end %>
-            <%=  form_for @review, remote: true, url: {action: 'review', controller: 'album'}, method: 'post', html: {class: 'form'} do |f| %>
+        <%= render '/stars_div', :i=>1 %>
+                <% @rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(@album.id)) %>
+            <%= render '/rating_js', :rating => @rating[0], :i => 1, :album => @album %>
+            
+            <%=  form_for @review, url: {action: 'review', controller: 'rate_and_review'}, method: 'post', html: {class: 'form'} do |f| %>
                 <div class='form-group'>
                     <textarea name='review' class='form-control' cols='80' rows='4'></textarea>
                 </div>
-                <input type='hidden' name='album' value='<%=@album.id%>'>
+                <input type='hidden' name='album' value='<%= @album.id %>'>
                 <%= f.submit 'Submit', class: 'btn' %>
             <% end %>
         <% end %>
         <div id='reviews'>
-            <%= render 'album/reviews' %>
+            <h3>Reviews:</h3>
+            <% if @reviews != nil %>
+                <% @reviews.each do |r| %>
+                    <%= render 'reviews', :r => r %>
+                <% end %>
+            <% end %>
         </div>
         
     </div>
