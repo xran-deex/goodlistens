@@ -8,9 +8,12 @@ class ApplicationController < ActionController::Base
 
   def search
     client = Sevendigital::Client.new
-    @results = client.artist.search(params[:search], :pageSize=>'5')
-    if @results.length == 1
-      redirect_to details_path(:artist_id=>@results[0].id)
+    @artists = client.artist.search(params[:search], :pageSize=>'5')
+    @users = User.find_all_by_name(params[:search])
+    @albums = client.release.search(params[:search], :pageSize=>'5')
+    @tracks = client.track.search(params[:search], :pageSize=>'5')
+    if @artists.length == 1
+      redirect_to details_path(:artist_id=>@artists[0].id)
     end
   end
 

@@ -13,7 +13,7 @@ Goodlistens::Application.routes.draw do
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
 
   get "login/index"
-  post 'search', to: 'application#search', as: :search
+  get 'search', to: 'application#search', as: :search
   get 'details', to: 'application#details', as: :details
   post 'rate', to: 'rate_and_review#rate', as: :rate_album
   post 'album/review', to: 'rate_and_review#review', as: :review_album

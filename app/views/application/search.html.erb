@@ -1,20 +1,58 @@
 <div class='container'>
-<h2>Search results:</h2>
-<ul class="nav nav-tabs">
-  <li><a href='#artists' data-toggle="tab">Artists</a></li>
-  <li><a href='' data-toggle="tab">Albums</a></li>
-  <li><a href='' data-toggle="tab">Tracks</a></li>
-  <li><a href='' data-toggle="tab">Users</a></li>
-</ul>
+    <h2>Search results:</h2>
+    <ul class="nav nav-tabs">
+      <% if @artists != nil %>
+      <li><a href='#artists' data-toggle="tab">Artists</a></li>
+      <% end %>
+      <% if @albums != nil %>
+      <li><a href='#albums' data-toggle="tab">Albums</a></li>
+      <% end %>
+      <% if @tracks != nil %>
+      <li><a href='#tracks' data-toggle="tab">Tracks</a></li>
+      <% end %>
+      <% if @users!= nil %>
+      <li><a href='#users' data-toggle="tab">Users</a></li>
+      <% end %>
+    </ul>
 
-<!-- Tab panes -->
-<div class="tab-content" style='margin-right:10px;'>
-  <div class="tab-pane active" id="artists">
-        <ul class='list-unstyled'>
-            <% @results.each do |f| %>
-                <li><a href='details?artist_id=<%=f.id%>' ><%=f.name %></a></li>
-            <% end %>
-        </ul>
-    </div>
+    <!-- Tab panes -->
+    <div class="tab-content" style='margin-right:10px;'>
+      <div class="tab-pane active" id="artists">
+            <ul class='list-unstyled'>
+                <% @artists.each do |f| %>
+                    <li><a href='details?artist_id=<%=f.id%>' ><%=f.name %></a></li>
+                <% end %>
+            </ul>
+        </div>
+    <% if @albums != nil %>
+      <div class="tab-pane" id="albums">
+            <ul class='list-unstyled'>
+                <% @albums.each do |f| %>
+                    <li><a href='/album/details?remote_id=<%=f.id%>' ><%=f.title %></a></li>
+                <% end %>
+            </ul>
+        </div>
+
+    <% end %>
+    <% if @tracks != nil %>
+      <div class="tab-pane" id="tracks">
+            <ul class='list-unstyled'>
+                <% @tracks.each do |f| %>
+                    <li><a href='details?track_id=<%=f.id%>' ><%=f.title %></a></li>
+                <% end %>
+            </ul>
+        </div>
+
+    <% end %>
+    <% if @users != nil %>
+      <div class="tab-pane" id="users">
+            <ul class='list-unstyled'>
+                <% @users.each do |user| %>
+                    <li><a href='/user/<%=user.id%>' ><%=user.name %></a></li>
+                <% end %>
+            </ul>
+        </div>
+
+    <% end %>
 </div>
 </div>

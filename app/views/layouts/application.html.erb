@@ -4,7 +4,10 @@
   <title>Goodlistens</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag params[:controller] %>
+  <% contr = params[:controller] %>
+  <% if contr != 'application' %>
+  <%= javascript_include_tag contr %>
+  <% end %>
   <%= csrf_meta_tags %>
 </head>
 <body>
