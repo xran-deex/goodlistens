@@ -3,7 +3,7 @@
         $(function(){
                 var rating = <%= rating.rating %>;
                 $('.star<%=i%>').each(function(index){
-                    if ( rating === index+1){
+                    if ( rating * 2 === index + 1){
                         $(this).attr('checked', 'checked');
                     }
                 }).rating();    

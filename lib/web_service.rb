@@ -16,6 +16,16 @@ class WebService
         Hash.from_xml(result.body)
     end
 
+    def self.get_tags()
+        result = Typhoeus.get("http://api.7digital.com/1.2/tag", 
+            params: {   
+                country: 'US', oauth_consumer_key: @@api_id, pageSize: '500', page: '1'
+            }
+        )
+        tag_xml = Hash.from_xml(result.body)
+        @tags = tag_xml['response']['tags']['tag']
+    end
+
     def self.cache_artist(genre)
         result = Typhoeus.get("http://api.7digital.com/1.2/artist/bytag/top", 
             params: {   

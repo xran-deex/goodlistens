@@ -6,7 +6,8 @@
         <% else %> 
             data-target='#addFriend<%= r.user.id %>'
         <% end %>
-        data-toggle='modal'><h5><%= r.user.name %></a>:</h5><p><%= r.review %></p>
+        data-toggle='modal'>
+        <h5><%= r.user.name %></a> - <%= r.created_at %>:</h5><p><%= r.review %></p>
     <div class="modal fade" id='addFriend<%= r.user.id %>'>
       <div class="modal-dialog">
         <div class="modal-content">
@@ -40,6 +41,6 @@
         });
     </script>
     <% else %>
-    <h5><%= r.user.name %></a>:</h5><p><%= r.review %></p>
+    <h5><%= r.user.name %></a> - <%= r.created_at %>:</h5><p><%= r.review %></p>
     <% end %>
 <% end %>

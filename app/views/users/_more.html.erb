@@ -5,49 +5,9 @@
                 </tr><tr>
             <% end %>
         <td class='text-primary'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%><%= image_tag(album.image(200)) %>
-        <div>
-            <input type='radio' name='star<%=i%>' class='star<%=i%> required' value='1' title='Hate it'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='2' title='Not very good'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='3' title='Good'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='4' title='Great'/>
-            <input type='radio' name='star<%=i%>' class='star<%=i%>' value='5' title='Awesome!'/>
-            <span id="hover<%=i%>" style="margin:0 0 0 20px;"></span>
-        </div>
-    <% @review = Review.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
-    <% if @review[0] != nil and @review[0].rating != nil %>
-    <script>
-        $(function(){
-                var rating = <%=@review[0].rating %>;
-                $('.star<%=i%>').each(function(index){
-                    if ( rating === index+1){
-                        $(this).attr('checked', 'checked');
-                    }
-                }).rating();    
-            }
-        );
-    </script>
-    <% else %>
-    <script>
-        $(function(){
-            $('.star<%=i%>').rating({ 
-                focus: function(value, link){ 
-                    var tip = $('#hover<%=i%>'); 
-                    tip[0].data = tip[0].data || tip.html(); 
-                    tip.html(link.title || 'value: '+value); 
-                }, 
-                blur: function(value, link){ 
-                    var tip = $('#hover<%=i%>'); 
-                    $('#hover<%=i%>').html(tip[0].data || '');
-                },
-                callback: function(value, link){ 
-                    $.ajax({
-                        url: 'newuser/rate', type: 'post', data: {album: '<%= album.id %>', rating: value}
-                    });
-                }
-            });
-        });
-    </script>
-    <% end %>
+        <%= render '/stars_div', :i => i %>
+    <% rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
+        <%= render '/rating_js', :i => i, :rating => rating[0], :album => album %>
     </td>
     <% end %>
 </table>

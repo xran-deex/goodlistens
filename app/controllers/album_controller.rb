@@ -5,7 +5,7 @@ class AlbumController < ApplicationController
     @album = client.release.get_details(params[:remote_id])
     album = Album.find_by_remote_id(@album.id)
     if album != nil
-        @reviews = album.reviews
+        @reviews = album.reviews.order('created_at DESC')
     end
     @review = Review.new
   end

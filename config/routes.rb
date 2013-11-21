@@ -4,6 +4,7 @@ Goodlistens::Application.routes.draw do
   get "rate_and_review/review"
 
   get "album/details", as: :album_details
+  post 'album/review', to: 'rate_and_review#review', as: :album_review
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "registrations" }
 
@@ -19,10 +20,10 @@ Goodlistens::Application.routes.draw do
 
   get 'home', to: 'users#index', as: :user
   get 'user/:id', to: 'users#other_user', as: :other_user
-  get 'newuser', to: 'users#newuser', as: :newuser
+  get 'browse', to: 'users#newuser', as: :newuser
   put 'newuser/add_name', to: 'users#add_name', as: :add_name
   get 'newuser/more_info', to: 'users#more_info', as: :more_info
-  get 'browse', to: 'users#newuser'
+  #get 'browse', to: 'users#newuser'
   post 'newuser/rate', to: 'rate_and_review#rate', as: :rate
   get 'newuser/next_albums', to: 'users#next_albums', as: :get_more
   get 'newuser/prev_albums', to: 'users#prev_albums', as: :get_less
