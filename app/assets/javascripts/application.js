@@ -12,11 +12,19 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require jquery.rating
+//= require jquery.rating.pack
+//= require jquery.MetaData
 //= require twitter/bootstrap
 
 $(function(){
     $('.star-rating-control').attr('class', 'center-block');
     $('.alert-success').delay(1500).fadeOut('slow');
-    
+    var currentPage = location.pathname;
+    currentPage = currentPage.split('?')[0];
+    $('.nav > li').each(function(){
+        var index = currentPage.indexOf($(this).children().attr('href'));
+        if(index >= 0)
+            $(this).attr('class', 'active');
+    });
 });

@@ -105,4 +105,7 @@ class UsersController < ApplicationController
     redirect_to new_user_path
   end
 
+  def uploadFile
+  end
+
 end

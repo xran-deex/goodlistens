@@ -41,6 +41,6 @@
         });
     </script>
     <% else %>
-    <h5><%= r.user.name %></a> - <%= r.created_at %>:</h5><p><%= r.review %></p>
+    <h5><%= r.user.name %></a> - <%= r.created_at.to_formatted_s(:short) %>:</h5><p><%= r.review %></p>
     <% end %>
 <% end %>

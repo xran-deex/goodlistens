@@ -1,6 +1,20 @@
+<div class='container'>
 <h2>Search results:</h2>
-<ul class='list-unstyled'>
-    <% @results.each do |f| %>
-        <li><a href='details?artist_id=<%=f.id%>' ><%=f.name %></a></li>
-    <% end %>
+<ul class="nav nav-tabs">
+  <li><a href='#artists' data-toggle="tab">Artists</a></li>
+  <li><a href='' data-toggle="tab">Albums</a></li>
+  <li><a href='' data-toggle="tab">Tracks</a></li>
+  <li><a href='' data-toggle="tab">Users</a></li>
 </ul>
+
+<!-- Tab panes -->
+<div class="tab-content" style='margin-right:10px;'>
+  <div class="tab-pane active" id="artists">
+        <ul class='list-unstyled'>
+            <% @results.each do |f| %>
+                <li><a href='details?artist_id=<%=f.id%>' ><%=f.name %></a></li>
+            <% end %>
+        </ul>
+    </div>
+</div>
+</div>
