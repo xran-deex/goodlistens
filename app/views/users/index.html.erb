@@ -44,10 +44,10 @@
           </div>
           <div class="tab-pane" id="profile">
             <h1>File Upload</h1>
-            <%= form_tag url: {:action => 'uploadFile', :controller => 'users'}, :multipart => true do %>
-            <p><label for="upload_file">Select File</label> : 
-            <%= file_field 'upload', 'datafile' %></p>
-            <%= submit_tag "Upload" %>
+            <%= form_tag '/upload/uploadFile', :multipart => true do %>
+                <p><label for="upload_file">Select File</label> : 
+                <%= file_field_tag 'file' %></p>
+                <%= submit_tag "Upload", class: 'btn' %>
             <% end %>
             <h4>Recommendations:</h4>
                 <ul class='list-unstyled'>

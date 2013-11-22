@@ -1,4 +1,8 @@
 Goodlistens::Application.routes.draw do
+  get "upload/index"
+
+  post "upload/uploadFile"
+
   get "rate_and_review/rate"
 
   get "rate_and_review/review"
@@ -17,6 +21,7 @@ Goodlistens::Application.routes.draw do
   get 'details', to: 'application#details', as: :details
   post 'rate', to: 'rate_and_review#rate', as: :rate_album
   post 'album/review', to: 'rate_and_review#review', as: :review_album
+  put 'album/review', to: 'rate_and_review#update', as: :update_album
 
   get 'home', to: 'users#index', as: :user
   get 'user/:id', to: 'users#other_user', as: :other_user
@@ -27,7 +32,7 @@ Goodlistens::Application.routes.draw do
   post 'newuser/rate', to: 'rate_and_review#rate', as: :rate
   get 'newuser/next_albums', to: 'users#next_albums', as: :get_more
   get 'newuser/prev_albums', to: 'users#prev_albums', as: :get_less
-  get 'user/addfriend', to: 'users#add_friend', as: :add_friend
+  post 'user/addfriend', to: 'users#add_friend', as: :add_friend
 
   root :to => 'application#index'
 

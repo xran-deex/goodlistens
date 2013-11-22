@@ -91,8 +91,8 @@ class UsersController < ApplicationController
   end
 
   def add_friend
+    puts 'sdjkljsdlkfj'
     current_user.friends << User.find(params[:user_id])
-    redirect_to user_path
   end
 
   def more_info
@@ -104,8 +104,4 @@ class UsersController < ApplicationController
     current_user.save
     redirect_to new_user_path
   end
-
-  def uploadFile
-  end
-
 end

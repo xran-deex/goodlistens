@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+<script type="text/javascript">
+document.ready = function(){
+    var loadtime = performance.timing.loadEventStart - performance.timing.navigationStart;
+    alert(loadtime);
+    $('#results').html('Loadtime: ' + loadtime);
+});
+</script>
+</head>
+<body>
+<h1>Performance Results:</h1>
+<div id='results'></div>
+</body>
+</html>
