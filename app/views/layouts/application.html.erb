@@ -6,7 +6,11 @@
   <%= javascript_include_tag "application" %>
   <% controller = params[:controller] %>
   <% if controller != 'application' %>
-  <%= javascript_include_tag controller %>
+    <%= javascript_include_tag controller %>
+  <% end %>
+  <% if request.fullpath == '/chat' %>
+    <%= javascript_include_tag 'websocket_rails/main' %>
+    <%= javascript_include_tag "share" %>
   <% end %>
   <%= csrf_meta_tags %>
 </head>

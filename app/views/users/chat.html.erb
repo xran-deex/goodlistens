@@ -1,0 +1,15 @@
+<div class='container'>
+<h1>Chat and share music</h1>
+<% if !user_signed_in? %>
+<audio controls id='audio'>
+    <source src='<%= root_path %>uploads/1/Test.mp3' type='audio/mp3'/>
+</audio>
+<% end %>
+<br/>
+<div class='col-md-6'>
+    <textarea rows='3' cols='20' class='form-control'></textarea><br/>
+    <button class='btn' id='link'>Send Message</button>
+    <br/>
+    <div id='message' class='jumbotron' style='padding-top:10px;margin-top:10px;height:200px;overflow-y:scroll'></div>
+</div>
+</div>
