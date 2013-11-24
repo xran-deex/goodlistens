@@ -16,6 +16,7 @@
 //= require jquery.rating.pack
 //= require jquery.MetaData
 //= require twitter/bootstrap
+//= require_tree .
 
 $(function(){
     $('.star-rating-control').attr('class', 'center-block');
