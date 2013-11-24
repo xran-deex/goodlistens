@@ -33,6 +33,8 @@ Goodlistens::Application.routes.draw do
   get 'newuser/prev_albums', to: 'users#prev_albums', as: :get_less
   post 'user/addfriend', to: 'users#add_friend', as: :add_friend
 
+  get 'chat', to: 'users#chat', as: :chat
+
   root :to => 'application#index'
 
   # The priority is based upon order of creation:

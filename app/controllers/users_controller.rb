@@ -98,6 +98,9 @@ class UsersController < ApplicationController
 
   end
 
+  def chat
+  end
+
   def add_name
     current_user.name = params[:user][:first_name] + ' ' + params[:user][:last_name]
     current_user.save
