@@ -18,8 +18,11 @@ class ApplicationController < ActionController::Base
   end
 
   def details
+    require 'wikipedia'
     client = Sevendigital::Client.new
+
     @artist = client.artist.get_details(params[:artist_id])
+    @wiki_html = Wikipedia.find_artist(@artist.name)
     @albums = client.artist.get_releases(params[:artist_id], :pageSize=>'100')
   end
 
