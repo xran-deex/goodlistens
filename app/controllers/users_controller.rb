@@ -91,7 +91,6 @@ class UsersController < ApplicationController
   end
 
   def add_friend
-    puts 'sdjkljsdlkfj'
     current_user.friends << User.find(params[:user_id])
   end
 
@@ -102,6 +101,6 @@ class UsersController < ApplicationController
   def add_name
     current_user.name = params[:user][:first_name] + ' ' + params[:user][:last_name]
     current_user.save
-    redirect_to new_user_path
+    redirect_to '/browse'
   end
 end
