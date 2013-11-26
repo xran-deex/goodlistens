@@ -15,6 +15,7 @@ Goodlistens::Application.routes.draw do
   match 'auth/:provider/callback' => 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
+  match 'track/trackdetails' => 'track#trackdetails', via: [:get, :post]
 
   get "login/index"
   get 'search', to: 'application#search', as: :search
@@ -32,6 +33,8 @@ Goodlistens::Application.routes.draw do
   get 'newuser/next_albums', to: 'users#next_albums', as: :get_more
   get 'newuser/prev_albums', to: 'users#prev_albums', as: :get_less
   post 'user/addfriend', to: 'users#add_friend', as: :add_friend
+
+  post 'track/trackdetails', to: 'track#trackdetails', as: :track_trackdetails
 
   root :to => 'application#index'
 
