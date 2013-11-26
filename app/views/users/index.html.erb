@@ -12,6 +12,7 @@
           <div class="tab-pane active" id="home">
             <% if user_signed_in? %>
                 <h3>Welcome, <%= current_user.name %></h3>
+                <%=  %>
             <% end %>
           </div>
           <div class="tab-pane" id="reviews">

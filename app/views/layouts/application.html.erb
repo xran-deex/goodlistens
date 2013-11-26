@@ -2,6 +2,11 @@
 <html>
 <head>
   <title>Goodlistens</title>
+  <% if user_signed_in? %>
+    <%= javascript_tag do %>
+      window.currentUserId = <%= current_user.id || current_user.token %>
+    <% end %>
+  <% end %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <% controller = params[:controller] %>

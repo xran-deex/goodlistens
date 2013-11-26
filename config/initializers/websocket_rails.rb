@@ -37,12 +37,12 @@ WebsocketRails.setup do |config|
   # will be called on the `current_user` object in your controller
   # if one exists. If `current_user` does not exist or does not
   # respond to the identifier, the key will default to `connection.id`
-  # config.user_identifier = :id
+  config.user_identifier = :id
 
   # Uncomment and change this option to override the class associated
   # with your `current_user` object. This class will be used when
   # synchronization is enabled and you trigger events from background
   # jobs using the WebsocketRails.users UserManager.
-  # config.user_class = User
+  config.user_class = User
 
 end

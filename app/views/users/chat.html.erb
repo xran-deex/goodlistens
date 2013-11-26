@@ -5,7 +5,10 @@
     <source src='<%= root_path %>uploads/1/Test.mp3' type='audio/mp3'/>
 </audio>
 <% end %>
-<br/>
+<br/> 
+<%= javascript_tag do %>
+var user_id = <%= current_user.id %>
+<% end %>
 <div class='col-md-6'>
     <textarea rows='3' cols='20' class='form-control'></textarea><br/>
     <button class='btn' id='link'>Send Message</button>
