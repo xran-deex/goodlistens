@@ -1,0 +1,8 @@
+Dear <%= @user.name %>
+<%= @greeting %>, here are some recommendations:
+
+<% @recommends.each do |r| %>
+    <%= r.name %>
+<% end %>
+
+- goodlistens.com
