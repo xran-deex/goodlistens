@@ -1,0 +1,12 @@
+<h1>Dear <%= @user.name %></h1>
+<p><%= @greeting %>, here are some recommendations:</p>
+
+<ul class='list-unstyled'>
+    <% if @recommends != nil %>
+        <% @recommends.each do |f| %>
+            <li><a href='http://localhost:3000/details?artist_id=<%= f.id %>'><%= f.name %></a></li>
+        <% end %>
+    <% end %>
+</ul>
+
+- goodlistens.com
