@@ -1,8 +1,9 @@
  $(function(){  
-    var dispatcher = new WebSocketRails('192.168.1.11:3000/websocket');
+    var dispatcher = new WebSocketRails('localhost:3000/websocket');
     var context;
     dispatcher.on_open = function(data) {
       console.log('Connection has been established: ' + data);
+      dispatcher.trigger('set_id', {data: currentUserId});
     }
 
     var audio = null;
@@ -10,19 +11,16 @@
     //audio.setAttribute('src', '<%= root_path %>uploads/2/Test.mp3');
 
     audio.addEventListener('seeked', function(e){
-        //$('#message').append('<p>'+e.srcElement.currentTime+'</p>');
         var data = {data: "seek", time: e.srcElement.currentTime, id: id};
         dispatcher.trigger('controls', {data: data});
     });
 
     audio.addEventListener('pause', function(e){
-        //$('#message').append('<p>'+e.srcElement.currentTime+'</p>');
         var data = {data: "pause", id: id};
         dispatcher.trigger('controls', {data: data});
     }); 
 
     audio.addEventListener('play', function(e){
-        //$('#message').append('<p>'+e.srcElement.currentTime+'</p>');
         var data = {data: "play", id: id};
         dispatcher.trigger('controls', {data: data});
     }); 
@@ -33,7 +31,6 @@
     dispatcher.bind('id', function(e){
         id = e.id;
         user_name = e.name;
-        //$('#message').append('<p class="" id="joined">'+user_name+' has joined the chat</p>');
     });
 
     dispatcher.bind('joined', function(e){
@@ -43,11 +40,9 @@
     dispatcher.bind('controls', function(e){
 
         if(e.message === 'play'){
-            //$('#message').append('<p>'+e.id+': initiated play</p>');
             audio.play();
         }
         else if (id != e.id && e.message == 'seek') {
-            //$('#message').append('<p>'+e.id+': initiated skip</p>');
             audio.currentTime = e.time;
             audio.play();
         }

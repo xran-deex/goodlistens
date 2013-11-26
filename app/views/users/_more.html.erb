@@ -4,7 +4,9 @@
             <% if i % 4 == 0 && i != 0 %>
                 </tr><tr>
             <% end %>
-        <td class='text-primary'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%><%= image_tag(album.image(200)) %>
+        <td class='text-primary'>
+            <a href='/album/details?remote_id=<%=album.id%>'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%></a>
+            <a href='/album/details?remote_id=<%=album.id%>'><%= image_tag(album.image(200)) %></a>
         <%= render '/stars_div', :i => i %>
     <% rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
         <%= render '/rating_js', :i => i, :rating => rating[0], :album => album %>

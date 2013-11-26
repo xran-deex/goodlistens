@@ -1,0 +1,13 @@
+<h1>Comment Track Here</h1>
+
+
+
+<%= form_tag(:controller => "track", :action => "review") do %>  
+  
+<%= label_tag(:message, "Put comments") %><br />  
+  
+<%= text_area_tag(:message, nil, :size => "44x6") %><br />  
+  
+<%= submit_tag("Submit")%>  
+
+<% end %>

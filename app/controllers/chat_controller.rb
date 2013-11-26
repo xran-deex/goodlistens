@@ -5,9 +5,17 @@ class ChatController < WebsocketRails::BaseController
 
     def client_connected
         puts 'Client connected'
+        puts connection.id
         controller_store[:id] = controller_store[:id] + 1
-        send_message :id, {:id => controller_store[:id], :name => current_user.name}
-        broadcast_message :joined, { :name => current_user.name}
+        #broadcast_message :joined, { :name => current_user.name}
+    end
+
+    def set_id
+        u = User.find(data)
+        puts u.name
+        send_message :id, {:id => controller_store[:id], :name => u.name}
+        data = { name: u.name}
+        broadcast_message :joined, data
     end
 
     def initialize_session
