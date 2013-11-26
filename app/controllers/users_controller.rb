@@ -4,11 +4,17 @@ class UsersController < ApplicationController
 
   def index
     client = Sevendigital::Client.new
+    
     top = current_user.ratings.where('rating>4').limit(1)[0]
     if top != nil
       top_album = top.reviewable.remote_id
       top_artist = client.release.get_details(top_album).artist
       @recommends = client.artist.get_similar(top_artist.id)
+
+      #send email recommendation if last login greater than 5 days.
+      if current_user.current_sign_in_at - current_user.last_sign_in_at > 60 * 60 * 24 * 5
+        RecommendationMailer.recommend(current_user, @recommends).deliver
+      end
     end
     @activity = []
     @recents = []
