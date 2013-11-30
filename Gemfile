@@ -15,6 +15,9 @@ gem 'devise'
 gem 'typhoeus'
 gem '7digital'
 gem 'websocket-rails'
+#gem 'gemcutter'
+#gem 'tumble'
+gem 'lastfm'
 
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails', :branch => '3.0.0'
 # Gems used only for assets and not required

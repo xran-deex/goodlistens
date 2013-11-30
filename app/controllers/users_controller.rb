@@ -3,6 +3,14 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
   def index
+    require 'lastfm'
+    @api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
+    api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
+    lastfm = Lastfm.new(@api_key, api_secret)
+    #if session['token'] == nil
+      @token = lastfm.auth.get_token
+      session['token'] = @token
+    #end
     client = Sevendigital::Client.new
     
     top = current_user.ratings.where('rating>4').limit(1)[0]
@@ -105,6 +113,18 @@ class UsersController < ApplicationController
   end
 
   def chat
+    require 'lastfm'
+    api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
+    api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
+    lastfm = Lastfm.new(api_key, api_secret)
+    #token = lastfm.auth.get_token
+    lastfm.session = lastfm.auth.get_session(:token => session['token'])['key']
+    user = lastfm.user.get_info
+    puts user['name']
+    puts lastfm.radio.tune('lastfm://user/'+user['name']+'/mix')
+    playlist = lastfm.radio.get_playlist
+    puts playlist['trackList']['track'][0]['location']
+    @track = playlist['trackList']['track'][0]['location']
     path = Rails.root.join('public', 'uploads', current_user.id.to_s)
     @files = Dir.entries(path).select {|f| !File.directory? f}
   end
