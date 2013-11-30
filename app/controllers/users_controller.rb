@@ -105,6 +105,8 @@ class UsersController < ApplicationController
   end
 
   def chat
+    path = Rails.root.join('public', 'uploads', current_user.id.to_s)
+    @files = Dir.entries(path).select {|f| !File.directory? f}
   end
 
   def add_name

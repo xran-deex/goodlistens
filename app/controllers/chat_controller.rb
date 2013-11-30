@@ -5,14 +5,14 @@ class ChatController < WebsocketRails::BaseController
 
     def client_connected
         puts 'Client connected'
-        puts connection.id
+        #puts connection.id
         controller_store[:id] = controller_store[:id] + 1
         #broadcast_message :joined, { :name => current_user.name}
     end
 
     def set_id
         u = User.find(data)
-        puts u.name
+        #puts u.name
         send_message :id, {:id => controller_store[:id], :name => u.name}
         data = { name: u.name}
         broadcast_message :joined, data
@@ -25,8 +25,6 @@ class ChatController < WebsocketRails::BaseController
     end
 
     def controls
-        puts data[:id]
-        puts controller_store[:id]
         if data[:data] == 'play'
             broadcast_message :controls, {:message => 'play', :id => controller_store[:id]}
         end
