@@ -45,9 +45,9 @@
             </ul>
           </div>
           <div class="tab-pane" id="profile">
-            <h2>Authenticate with Last.fm: <a href='http://www.last.fm/api/auth/?api_key=<%= @api_key %>&token=<%= @token %>' onclick="window.open(this.href, 'Chat',
-'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">authorize</a></h2>
-            <h1>File Upload</h1>
+            <!-- <h2>Authenticate with Last.fm: <a href='http://www.last.fm/api/auth/?api_key=<%= @api_key %>&token=<%= @token %>' onclick="window.open(this.href, 'Chat',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">authorize</a></h2> -->
+            <h1>Upload an mp3</h1>
             <%= form_tag '/upload/uploadFile', :multipart => true do %>
                 <p><label for="upload_file">Select File</label> : 
                 <%= file_field_tag 'file' %></p>
