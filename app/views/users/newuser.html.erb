@@ -25,9 +25,9 @@ $(function(){
             url: 'newuser/next_albums',
             data: {genre: '<%= @genre %>'},
             success: function(data){
-                $('.albums').fadeOut('slow', function(){
+                $('#albums').fadeOut('slow', function(){
                     $(this).replaceWith(data);
-                    $('.albums').fadeIn('slow');
+                    $('#albums').fadeIn('slow');
                 });
             }
         });
@@ -39,9 +39,9 @@ $(function(){
             url: 'newuser/prev_albums',
             data: {genre: '<%= @genre %>'},
             success: function(data){
-                $('.albums').fadeOut('slow', function(){
+                $('#albums').fadeOut('slow', function(){
                     $(this).replaceWith(data);
-                    $('.albums').fadeIn('slow');
+                    $('#albums').fadeIn('slow');
                 });
             }
         });
