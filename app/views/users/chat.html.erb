@@ -1,17 +1,18 @@
 <div class='container'>
-    <div class='col-md-6'>
+    <div class='col-md-8'>
 <h1>Chat and share music</h1>
 <br/> 
 <%= javascript_tag do %>
 var user_id = <%= current_user.id %>
 <% end %>
-    <textarea rows='3' cols='20' class='form-control'></textarea><br/>
+	<div class='col-md-6'>
+    <input type='text' rows='3' cols='20' class='form-control'></input><br/>
     <button class='btn' id='link'>Send Message</button>
     <br/>
     <div id='message' class='jumbotron' style='padding-top:10px;margin-top:10px;height:200px;overflow-y:scroll'></div>
-
+	</div>
 </div>
-<div class='col-md-4 pull-right'>
+<div class='col-md-4'>
     <h3>Select an mp3 to play</h3>
     <form class='form'>
     <select class='form-control'>
@@ -28,6 +29,7 @@ var user_id = <%= current_user.id %>
             $('#load').click(function(e){
                 e.preventDefault();
                 $('audio').attr('src', $('select option:selected').val());
+                alert($('audio').attr('src'));
             });
         });
     </script>

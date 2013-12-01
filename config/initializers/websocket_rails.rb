@@ -15,7 +15,7 @@ WebsocketRails.setup do |config|
   # Change to true to enable standalone server mode
   # Start the standalone server with rake websocket_rails:start_server
   # * Requires Redis
-  config.standalone = false
+  config.standalone = true
 
   # Change to true to enable channel synchronization between
   # multiple server instances.
@@ -43,6 +43,6 @@ WebsocketRails.setup do |config|
   # with your `current_user` object. This class will be used when
   # synchronization is enabled and you trigger events from background
   # jobs using the WebsocketRails.users UserManager.
-  config.user_class = User
+  #config.user_class = User
 
 end
