@@ -1,6 +1,6 @@
 <div id='albums'>
 <% @albums.each_with_index do |album, i| %>
-<div class='col-xs-12 col-ms-6 col-sm-4 col-md-3'>
+<div class='col-xs-12 col-ms-6 col-sm-4 col-md-3 center-block'>
     <a href='/album/details?remote_id=<%=album.id%>' class='text-center col-md-12'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%></a><br/>
             <a href='/album/details?remote_id=<%=album.id%>'><%= image_tag(album.image(200)) %></a>
         <%= render '/stars_div', :i => i %>

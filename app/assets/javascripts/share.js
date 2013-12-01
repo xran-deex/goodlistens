@@ -1,5 +1,5 @@
  $(function(){  
-    var dispatcher = new WebSocketRails('valis.strangled.net:8080/websocket');
+    var dispatcher = new WebSocketRails('localhost:3000/websocket');
     var context;
     dispatcher.on_open = function(data) {
       console.log('Connection has been established: ' + data);
@@ -8,6 +8,7 @@
 
     var audio = null;
     audio = document.getElementsByTagName("audio")[0];
+    var track_num = 0;
     //audio.setAttribute('src', '<%= root_path %>uploads/2/Test.mp3');
 
     audio.addEventListener('seeked', function(e){
@@ -24,6 +25,10 @@
         var data = {data: "play", id: id};
         dispatcher.trigger('controls', {data: data});
     }); 
+
+    audio.addEventListener('ended', function(e){
+        //$('audio').attr('src', )
+    });
 
     var id = null;
     var user_name = null;
@@ -49,6 +54,9 @@
         else if (id != e.id && e.message == 'pause'){
             audio.pause();
         }
+        else if (id != e.id && e.message == 'switchSrc'){
+            $('audio').attr('src', e.src);
+        }
     });
 
     dispatcher.bind('message', function(e){
@@ -61,5 +69,13 @@
         dispatcher.trigger('message', {data: {data: $('textarea').val(), name: user_name, id: id}});
         $('textarea').val('');
         $('textarea').focus();
+    });
+
+    $('#messageBox').keypress(function(e){
+        if(e.which == 13){
+            dispatcher.trigger('message', {data: {data: $('#messageBox').val(), name: user_name, id: id}});
+            $('#messageBox').val('');
+            $('#messageBox').focus();
+        }
     });
 });

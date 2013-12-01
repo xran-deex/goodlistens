@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
     puts user.id
     session[:auth] = env['omniauth.auth']
     session[:user_id] = user.id
+    
     redirect_to root_url
   end
 

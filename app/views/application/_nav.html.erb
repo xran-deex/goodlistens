@@ -13,10 +13,11 @@
         <li class=''><a href="/home">Home</a></li>
         <li class=''><a href="/browse">Browse</a></li>
         <% if request.fullpath != '/chat' %>
-            <li class=''><a href='/chat'>Chat</a></li>
+            <li class=''><a href='/chat' onclick="window.open(this.href, 'Chat',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">Chat</a></li>
         <% end %>
     </ul>
-    <form class="navbar-form navbar-left" role="search" method='get' action='/search'>
+    <form class="navbar-form navbar-left" role="search" method='get' action='/search' id='searchForm'>
       <div class="form-group">
         <input name="authenticity_token" value="" type="hidden">
         <input type="text" class="form-control" placeholder="Search" name='search'>
@@ -25,9 +26,17 @@
     </form>
     <% if request.fullpath == '/chat' %>
     <audio controls style='margin-top:10px;'>
-        <%= @u = current_user.id.to_s %>
+        <% @u = current_user.id.to_s %>
         <source src="" type='audio/mpeg'/>
     </audio>
+    <script type="text/javascript">
+    $(function(){
+        if(window.innerWidth < 786){
+            var audio = $('audio').detach();
+            audio.insertAfter($("#chatForm"));
+        }
+    });
+    </script>
     <% end %>
     <ul class='nav navbar-nav pull-right'>
         <% if user_signed_in? %>

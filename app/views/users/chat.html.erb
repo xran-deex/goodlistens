@@ -5,16 +5,16 @@
 <%= javascript_tag do %>
 var user_id = <%= current_user.id %>
 <% end %>
-	<div class='col-md-6'>
-    <input type='text' rows='3' cols='20' class='form-control'></input><br/>
-    <button class='btn' id='link'>Send Message</button>
+	<div class='col-md-10'>
+    <input type='text' rows='3' cols='20' class='form-control' id='messageBox'></input><br/>
+    <!-- <button class='btn' id='link'>Send Message</button> -->
     <br/>
     <div id='message' class='jumbotron' style='padding-top:10px;margin-top:10px;height:200px;overflow-y:scroll'></div>
 	</div>
 </div>
 <div class='col-md-4'>
     <h3>Select an mp3 to play</h3>
-    <form class='form'>
+    <form class='form' id='chatForm'>
     <select class='form-control'>
         <% @files.each do |f| %>
             <option value='<%= root_path %>uploads/<%= current_user.id %>/<%= f %>'><%= f %></option>
@@ -28,10 +28,29 @@ var user_id = <%= current_user.id %>
         $(function(){
             $('#load').click(function(e){
                 e.preventDefault();
-                $('audio').attr('src', $('select option:selected').val());
-                alert($('audio').attr('src'));
+                //$('audio').attr('src', $('select option:selected').val());
+                var data = {data: "switchSrc", id: id, src: $('select option:selected').val()};
+                dispatcher.trigger('controls', {data: data});
             });
         });
+    </script>
+    <script>
+    var oldWidth = window.innerWidth;
+    $(function(){
+        window.onresize = function(e){
+            if(oldWidth > 786 && window.innerWidth < 786){
+                var audio = $('audio').detach();
+                audio.insertAfter($("#chatForm"));
+                document.getElementsByTagName("audio")[0].play();
+                oldWidth = window.innerWidth;
+            } else if (oldWidth < 786 && window.innerWidth > 786) {
+                var audio = $('audio').detach();
+                audio.insertAfter($("#searchForm"));
+                document.getElementsByTagName("audio")[0].play();
+                oldWidth = window.innerWidth;
+            }
+        };
+    });
     </script>
 </div>
 </div>

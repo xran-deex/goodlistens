@@ -1,16 +1,24 @@
 require 'sevendigital'
 class UsersController < ApplicationController
   before_filter :authenticate_user!
-
+  @@api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
+  @@lastfm = nil
   def index
     require 'lastfm'
-    @api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
+    # @api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
     api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
-    lastfm = Lastfm.new(@api_key, api_secret)
-    #if session['token'] == nil
-      @token = lastfm.auth.get_token
+    @@lastfm = Lastfm.new(@@api_key, api_secret)
+    if session['token'] == nil
+      puts 'token was null'
+      @token = @@lastfm.auth.get_token
       session['token'] = @token
-    #end
+    end
+    puts current_user.id
+    dir = File.dirname(Rails.root.join('public', 'uploads', current_user.id.to_s, 'nothing'))
+    puts dir
+    unless File.directory?(dir)
+        FileUtils.mkdir_p(dir)
+    end
     client = Sevendigital::Client.new
     
     top = current_user.ratings.where('rating>4').limit(1)[0]
@@ -114,16 +122,15 @@ class UsersController < ApplicationController
 
   def chat
     require 'lastfm'
-    api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
-    api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
-    lastfm = Lastfm.new(api_key, api_secret)
-    #token = lastfm.auth.get_token
-    lastfm.session = lastfm.auth.get_session(:token => session['token'])['key']
-    user = lastfm.user.get_info
-    puts user['name']
-    puts lastfm.radio.tune('lastfm://user/'+user['name']+'/mix')
-    playlist = lastfm.radio.get_playlist
-    puts playlist['trackList']['track'][0]['location']
+    begin
+      @@lastfm.session = @@lastfm.auth.get_session(:token => session['token'])['key']
+    rescue
+      redirect_to 'http://www.last.fm/api/auth/?api_key='+@@api_key+'&token='+session['token']
+      return
+    end
+    user = @@lastfm.user.get_info
+    playlist = @@lastfm.radio.get_playlist
+    @track_list = playlist['trackList']['track']
     @track = playlist['trackList']['track'][0]['location']
     path = Rails.root.join('public', 'uploads', current_user.id.to_s)
     @files = Dir.entries(path).select {|f| !File.directory? f}

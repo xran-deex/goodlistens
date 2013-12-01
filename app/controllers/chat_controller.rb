@@ -37,5 +37,8 @@ class ChatController < WebsocketRails::BaseController
         if data[:data] == 'pause'
             broadcast_message :controls, {:message => 'pause', :id => data[:id]}
         end
+        if data[:data] == 'switchSrc'
+            broadcast_message :controls, {:message => 'switchSrc', :id => data[:id], :src => data[:src]}
+        end
     end
 end
