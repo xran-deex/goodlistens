@@ -1,6 +1,6 @@
 require 'sevendigital'
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:newuser]
   @@api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
   @@lastfm = nil
   def index

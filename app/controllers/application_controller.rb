@@ -25,7 +25,12 @@ class ApplicationController < ActionController::Base
     @wiki_html = Wikipedia.find_artist(@artist.name)
     @albums = client.artist.get_releases(params[:artist_id], :pageSize=>'100')
   end
-
+	
+  def index
+  	if user_signed_in?
+  		redirect_to user_path
+  	end
+  end
   #before_filter :authenticate_user!
 
   # def index
