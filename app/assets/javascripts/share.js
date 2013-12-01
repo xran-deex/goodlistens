@@ -1,5 +1,5 @@
  $(function(){  
-    var dispatcher = new WebSocketRails('localhost:3000/websocket');
+    var dispatcher = new WebSocketRails('valis.strangled.net:8080/websocket');
     var context;
     dispatcher.on_open = function(data) {
       console.log('Connection has been established: ' + data);
@@ -54,7 +54,7 @@
         else if (id != e.id && e.message == 'pause'){
             audio.pause();
         }
-        else if (id != e.id && e.message == 'switchSrc'){
+        else if (e.message == 'switchSrc'){
             $('audio').attr('src', e.src);
         }
     });
@@ -77,5 +77,11 @@
             $('#messageBox').val('');
             $('#messageBox').focus();
         }
+    });
+    
+    $('#load').click(function(e){
+    	e.preventDefault();
+    	var data = {data: 'switchSrc', id: id, src: $('select option:selected').val()};
+    	dispatcher.trigger('controls', {data: data});
     });
 });
