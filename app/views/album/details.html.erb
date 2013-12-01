@@ -2,7 +2,7 @@
     
     <h1><%=  @album.title %></h1>
     <div class='col-md-7'>
-        <%= image_tag(@album.image(500)) %>
+        <%= image_tag(@album.image(500), :class=> 'img-responsive') %>
     </div>
     <div class='col-md-5'>
         <h2><%= @album.artist.name %></h2>
