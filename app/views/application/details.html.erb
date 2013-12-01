@@ -1,18 +1,6 @@
 <h1><%= @artist.name %></h1>
+<% if @wiki_html != nil %>
 <%= render inline: @wiki_html %>
+<% end %>
 <h3>Albums</h3>
-<table class='table'>
-    <tr>
-        <% @albums.each_with_index do |album, i| %>
-            <% if i % 4 == 0 && i != 0 %>
-                </tr><tr>
-            <% end %>
-        <td class='text-primary'><%= album.title[0,20] %><%if album.title.length >20%>...<%end%>
-            <a href='/album/details?remote_id=<%=album.id%>'><%= image_tag(album.image(200)) %></a>
-            <%= render '/stars_div', :i => i %>
-
-            <% rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
-            <%= render '/rating_js', :rating => rating[0], :i=>i, :album=>album %>
-        </td>
-    <% end %>
-</table>
+<%= render 'users/more' %>
