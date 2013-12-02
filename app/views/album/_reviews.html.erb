@@ -42,7 +42,7 @@
     </script>
     <% else %>
     <h5><%= r.user.name %> - <%= r.created_at.to_formatted_s(:short) %>:
-        <a href='#' id='edit'>Edit</a>
+        <a href='#' id='edit'>Edit</a>, Share: <%= link_to image_tag('facebook_32.png'), fb_post_path(:title => 'Check out my review on goodlistens.com', :url => 'http://www.goodlistens.com'+request.fullpath, :desc => 'goodlistens: Review and share music') %>
         <script type="text/javascript">
         $(function(){
             $('#edit').click(function(e){

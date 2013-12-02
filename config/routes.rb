@@ -1,4 +1,10 @@
 Goodlistens::Application.routes.draw do
+  get "fb_share/auth", as: :fb_post
+
+  get "fb_share/callback"
+
+  get "fb_share/client"
+
   get "upload/index"
 
   post "upload/uploadFile"

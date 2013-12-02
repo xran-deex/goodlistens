@@ -5,6 +5,9 @@
             <a href='/album/details?remote_id=<%=album.id%>'><%= image_tag(album.image(350), :class=>'img-responsive') %></a>
         <%= render '/stars_div', :i => i %>
     <% rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(album.id)) %>
+    <% if rating[0] != nil %>
+    <% puts rating[0].rating %>
+    <% end %>
         <%= render '/rating_js', :i => i, :rating => rating[0], :album => album %>
 </div>
 <% end %>

@@ -37,7 +37,7 @@
                         <li><%= a.artist.name %> - <a href='/album/details?remote_id=<%=a.id%>'><%= a.title %></a>
                         <%= render '/stars_div', :i=>i %>
                         </li>
-                        <%= render '/rating_js', :rating=>r, :i=>i %>
+                        <%= render '/rating_js', :rating=>r, :i=>i, :album => a %>
                     <% end %>
                     <% i+=1 %>
                 <% end %>

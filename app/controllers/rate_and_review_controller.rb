@@ -1,6 +1,6 @@
 class RateAndReviewController < ApplicationController
   def rate
-    rating = Rating.new
+    rating = Rating.find_or_initialize_by_reviewable_id(Album.find_or_create_by_remote_id(params[:album].to_i))
     rating.user = current_user
     rating.rating = params[:rating].to_d
     rating.reviewable = Album.find_or_create_by_remote_id(params[:album].to_i)

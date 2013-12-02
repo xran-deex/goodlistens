@@ -1,0 +1,8 @@
+defaults:
+    facebook:
+        api_key: '226640817500794'
+        api_secret: '628d48762afa78aca8f4852a833d74aa'
+
+    google:
+        api_key: '965789525279.apps.googleusercontent.com'
+        api_secret: 'UWxvf7C4HdDW3AUeRjP6OZCn'

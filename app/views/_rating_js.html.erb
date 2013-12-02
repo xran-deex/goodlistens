@@ -1,4 +1,4 @@
-<% if rating != nil and rating != nil %>
+<% if rating != nil %>
     <script>
         $(function(){
                 var rating = <%= rating.rating %>;
@@ -6,7 +6,22 @@
                     if ( rating * 2 === index + 1){
                         $(this).attr('checked', 'checked');
                     }
-                }).rating();    
+                }).rating({ 
+                    focus: function(value, link){ 
+                        var tip = $('#hover<%=i%>'); 
+                        tip[0].data = tip[0].data || tip.html(); 
+                        tip.html(link.title || 'value: '+value); 
+                    }, 
+                    blur: function(value, link){ 
+                        var tip = $('#hover<%=i%>'); 
+                        $('#hover<%=i%>').html(tip[0].data || '');
+                    },
+                    callback: function(value, link){ 
+                        $.ajax({
+                            url: '/rate', type: 'post', data: {album: '<%= album.id %>', rating: value}
+                        });
+                    }
+                });    
             }
         );
     </script>
