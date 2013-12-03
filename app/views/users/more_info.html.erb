@@ -4,11 +4,11 @@
   <p>Please supply the following information</p>
   <div class='form-group'>
     <%= label_tag :first_name %>
-    <%= text_field_tag 'user[first_name]', 'First Name', class: 'form-control' %>
+    <%= text_field_tag 'user[first_name]', 'First Name', class: 'form-control', id: 'first_name' %>
   </div>
   <div class='form-group'>
     <%= label_tag :last_name %>
-    <%= text_field_tag 'user[last_name]', 'Last Name', class: 'form-control' %>
+    <%= text_field_tag 'user[last_name]', 'Last Name', class: 'form-control', id: 'last_name' %>
   </div>
   <div><%= submit_tag 'Submit', class: 'btn btn-primary' %></div>
   <br/>

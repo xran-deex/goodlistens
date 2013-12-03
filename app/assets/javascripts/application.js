@@ -29,5 +29,7 @@ $(function(){
         if(index >= 0)
             $(this).attr('class', 'active');
     });
+    //var dispatcher = new WebSocketRails('localhost:3000/websocket');
+
 });
 

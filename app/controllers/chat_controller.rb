@@ -3,6 +3,10 @@ class ChatController < WebsocketRails::BaseController
         broadcast_message :message, data
     end
 
+    def initiate
+        
+    end
+
     def client_connected
         puts 'Client connected'
         #puts connection.id

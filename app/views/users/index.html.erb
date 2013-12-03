@@ -1,7 +1,7 @@
 <div class='container'>
-    <div class='row col-md-10'>
-        <ul class="nav nav-tabs">
-          <li><a href="#home" data-toggle="tab">Home</a></li>
+    <div class='row'>
+        <ul class="nav nav-tabs nav-justified">
+          <li class='active'><a href="#home" data-toggle="tab">Home</a></li>
           <li><a href="#reviews" data-toggle="tab">Reviews</a></li>
           <li><a href="#ratings" data-toggle="tab">Ratings</a></li>
           <li><a href="#profile" data-toggle="tab">Profile</a></li>
@@ -22,7 +22,7 @@
                 <ul class='list-unstyled'>
                     <% @reviews.zip(@recent_reviews)[0...5].each do |r, a| %>
                         <% if a != nil and r.review != nil %>
-                        <li><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= a.title %></a>: <%= r.review %><br/><%= image_tag(a.image(100)) %></li>
+                        <li><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= a.title %></a>: <%= r.review %><br/><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= image_tag(a.image(100)) %></a></li>
                         <% end %>
                     <% end %>
                 </ul>
@@ -34,7 +34,7 @@
                 <% i = 0 %>
                 <% @ratings.zip(@recents).each do |r, a| %>
                     <% if a != nil and r.rating != nil %>
-                        <li><%= a.artist.name %> - <a href='/album/details?remote_id=<%=a.id%>'><%= a.title %></a>
+                        <li><%= a.artist.name %> - <a href='/album/details?remote_id=<%=a.id%>'><%= a.title %><br/><%= image_tag(a.image(100)) %></a>
                         <%= render '/stars_div', :i=>i %>
                         </li>
                         <%= render '/rating_js', :rating=>r, :i=>i, :album => a %>
@@ -47,20 +47,32 @@
           <div class="tab-pane" id="profile">
             <!-- <h2>Authenticate with Last.fm: <a href='http://www.last.fm/api/auth/?api_key=<%= @api_key %>&token=<%= @token %>' onclick="window.open(this.href, 'Chat',
 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">authorize</a></h2> -->
-            <h1>Upload an mp3</h1>
+          <div class='col-md-6'>
+            <h3>Upload an mp3</h3>
             <%= form_tag '/upload/uploadFile', :multipart => true do %>
-                <p><label for="upload_file">Select File</label> : 
+                <p><label for="upload_file">Select File</label>: 
                 <%= file_field_tag 'file' %></p>
                 <%= submit_tag "Upload", class: 'btn' %>
             <% end %>
-            <h4>Recommendations:</h4>
-                <ul class='list-unstyled'>
+          </div>
+            <br/>
+            <div class='col-md-6'>
+            <div class='panel panel-default'>
+              <div class='panel-heading'>Recommendations:</div>
+                <div class='panel-body' style='height:200px;overflow-y:auto'>
+                  <ul class='list-unstyled'>
                     <% if @recommends != nil %>
                     <% @recommends.each do |f| %>
                         <li><a href='/details?artist_id=<%= f.id %>'><%= f.name %></a></li>
                     <% end %>
                     <% end %>
-                </ul>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class='col-md-6'>
+              <%= link_to 'Update name', more_info_path %>
+            </div>
           </div>
           <div class="tab-pane" id="friends">
             <h4>Friends:</h4>
