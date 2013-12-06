@@ -1,5 +1,5 @@
  $(function(){  
-    var dispatcher = new WebSocketRails('valis.strangled.net:3000/websocket');
+    var dispatcher = new WebSocketRails('valis.strangled.net:8080/websocket');
     var context;
     dispatcher.on_open = function(data) {
       console.log('Connection has been established: ' + data);
