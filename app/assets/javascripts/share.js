@@ -1,5 +1,5 @@
  $(function(){  
-    var dispatcher = new WebSocketRails('valis.strangled.net:8080/websocket');
+    var dispatcher = new WebSocketRails('valis.strangled.net:3000/websocket');
     var context;
     dispatcher.on_open = function(data) {
       console.log('Connection has been established: ' + data);
@@ -9,7 +9,6 @@
     var audio = null;
     audio = document.getElementsByTagName("audio")[0];
     var track_num = 0;
-    //audio.setAttribute('src', '<%= root_path %>uploads/2/Test.mp3');
 
     audio.addEventListener('seeked', function(e){
         var data = {data: "seek", time: e.srcElement.currentTime, id: id};
@@ -55,7 +54,9 @@
             audio.pause();
         }
         else if (e.message == 'switchSrc'){
+            alert(e.src);
             $('audio').attr('src', e.src);
+            alert($('audio').attr('src'));
         }
     });
 

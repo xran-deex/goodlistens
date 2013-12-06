@@ -4,15 +4,15 @@ class UsersController < ApplicationController
   @@api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
   @@lastfm = nil
   def index
-    require 'lastfm'
-    # @api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
-    api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
-    @@lastfm = Lastfm.new(@@api_key, api_secret)
-    if session['token'] == nil
-      puts 'token was null'
-      @token = @@lastfm.auth.get_token
-      session['token'] = @token
-    end
+    # require 'lastfm'
+    # api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
+    # @@lastfm = Lastfm.new(@@api_key, api_secret)
+    session['token'] = nil
+    # if session['token'] == nil
+    #   puts 'token was null'
+    #   @token = @@lastfm.auth.get_token
+    #   session['token'] = @token
+    # end
     puts current_user.id
     dir = File.dirname(Rails.root.join('public', 'uploads', current_user.id.to_s, 'nothing'))
     puts dir
@@ -120,20 +120,40 @@ class UsersController < ApplicationController
 
   end
 
-  def chat
-    require 'lastfm'
+  def lastfm_auth
     begin
-      @@lastfm.session = @@lastfm.auth.get_session(:token => session['token'])['key']
-    rescue
-      redirect_to 'http://www.last.fm/api/auth/?api_key='+@@api_key+'&token='+session['token']
-      return
-    end
+      if session['token'] == nil
+        token = @@lastfm.auth.get_token
+        puts 'session is nil'
+        @@lastfm.session = @@lastfm.auth.get_session(:token => token)['key']
+      else
+        @@lastfm.session = @@lastfm.auth.get_session(:token => session['token'])['key']
+      end
+      current_user.lastfm_key = @@lastfm.session
+      current_user.save
+      puts 'key updated'
+      rescue
+        session['token'] = token
+        redirect_to 'http://www.last.fm/api/auth/?api_key='+@@api_key+'&token='+token+'&cb=http://localhost:3000/lastfm_auth' and return
+      end
+      redirect_to action: :chat
+  end
+
+  def chat
+    api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
+    puts 'chat called'
+    @@lastfm = Lastfm.new(@@api_key, api_secret)
+    if current_user.lastfm_key != nil
+    @@lastfm.session = current_user.lastfm_key
     user = @@lastfm.user.get_info
+    @@lastfm.radio.tune(:station=>'user/'+user['name']+'/mix')
     playlist = @@lastfm.radio.get_playlist
     @track_list = playlist['trackList']['track']
     @track = playlist['trackList']['track'][0]['location']
+  end
     path = Rails.root.join('public', 'uploads', current_user.id.to_s)
     @files = Dir.entries(path).select {|f| !File.directory? f}
+    # end
   end
 
   def add_name

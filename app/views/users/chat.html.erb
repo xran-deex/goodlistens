@@ -19,11 +19,16 @@ var user_id = <%= current_user.id %>
         <% @files.each do |f| %>
             <option value='<%= root_path %>uploads/<%= current_user.id %>/<%= f %>'><%= f %></option>
         <% end %>
+        <% if current_user.lastfm_key != nil %>
         <option value='<%= @track %>'>Lastfm</option>
+        <% end %>
     </select>
     <br/>
     <button class='btn' id='load'>Load</button>
     </form>
+    <% if current_user.lastfm_key == nil %>
+        <p id='lastfm'>Last.fm user? <%= link_to 'Authorize', 'lastfm_auth', id: 'authorize' %></p>
+    <% end %>
     <script>
     var oldWidth = window.innerWidth;
     $(function(){

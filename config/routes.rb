@@ -39,6 +39,7 @@ Goodlistens::Application.routes.draw do
   get 'newuser/next_albums', to: 'users#next_albums', as: :get_more
   get 'newuser/prev_albums', to: 'users#prev_albums', as: :get_less
   post 'user/addfriend', to: 'users#add_friend', as: :add_friend
+  get 'lastfm_auth', to: 'users#lastfm_auth'
 
   get 'chat', to: 'users#chat', as: :chat
 
