@@ -41,7 +41,9 @@ Goodlistens::Application.routes.draw do
   post 'user/addfriend', to: 'users#add_friend', as: :add_friend
   get 'lastfm_auth', to: 'users#lastfm_auth'
 
+  get 'chat/:id', to: 'users#chat', as: :chat
   get 'chat', to: 'users#chat', as: :chat
+  get 'initiate_chat', to: 'users#initiate_chat', as: :initiate_chat
 
   post 'track/trackdetails', to: 'track#trackdetails', as: :track_trackdetails
 

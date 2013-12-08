@@ -16,8 +16,8 @@
 //= require jquery.rating.pack
 //= require jquery.MetaData
 //= require twitter/bootstrap
-// require websocket_rails/main
-// require_tree .
+//= require websocket_rails/main
+// require_tree ./websockets
 
 $(function(){
     $('.star-rating-control').attr('class', 'center-block');
@@ -29,7 +29,7 @@ $(function(){
         if(index >= 0)
             $(this).attr('class', 'active');
     });
-    //var dispatcher = new WebSocketRails('localhost:3000/websocket');
+    
 
 });
 

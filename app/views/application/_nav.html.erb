@@ -24,7 +24,7 @@
       </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
-    <% if request.fullpath == '/chat' %>
+    <% if params[:action] == 'chat' %>
     <audio controls style='margin-top:10px;'>
         <% @u = current_user.id.to_s %>
         <source src="" type='audio/mpeg'/>

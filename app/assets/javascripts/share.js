@@ -1,9 +1,21 @@
  $(function(){  
-    var dispatcher = new WebSocketRails('valis.strangled.net:8080/websocket');
+    var dispatcher = new WebSocketRails('192.168.1.11:3000/websocket');
+    var channel_name = window.location.pathname.split('/')[2];
+    var channel = null;
+    var private_chat = dispatcher.subscribe(''+channel_name);
+    if (channel_name == ''){
+        channel = dispatcher;
+    } else {
+        channel = private_chat;
+    }
+    
+    //alert();
     var context;
     dispatcher.on_open = function(data) {
       console.log('Connection has been established: ' + data);
-      dispatcher.trigger('set_id', {data: currentUserId});
+      // private_chat.trigger('id', {id: currentUser.id, name: currentUser.name});
+      channel.trigger('joined', {name: currentUser.name});
+
     }
 
     var audio = null;
@@ -11,70 +23,72 @@
     var track_num = 0;
 
     audio.addEventListener('seeked', function(e){
-        var data = {data: "seek", time: e.srcElement.currentTime, id: id};
-        dispatcher.trigger('controls', {data: data});
+        if(sender == null || currentUser.id == sender.id ){
+            var data = {message: "seek", time: e.srcElement.currentTime, id: currentUser.id, channelName: channel_name};
+            channel.trigger('controls', data);
+        }
     });
 
     audio.addEventListener('pause', function(e){
-        var data = {data: "pause", id: id};
-        dispatcher.trigger('controls', {data: data});
+        var data = {message: "pause", id: currentUser.id, channelName: channel_name};
+        channel.trigger('controls', data);
     }); 
 
     audio.addEventListener('play', function(e){
-        var data = {data: "play", id: id};
-        dispatcher.trigger('controls', {data: data});
+        var data = {message: "play", id: currentUser.id, channelName: channel_name};
+
+        channel.trigger('controls', data);
     }); 
 
     audio.addEventListener('ended', function(e){
         //$('audio').attr('src', )
     });
 
-    var id = null;
-    var user_name = null;
+    var triggered = false;
+    var sender = null;
+    // var user_name = null;
 
-    dispatcher.bind('id', function(e){
+    channel.bind('id', function(e){
         id = e.id;
         user_name = e.name;
     });
 
-    dispatcher.bind('joined', function(e){
+    channel.bind('joined', function(e){
         $('#message').append('<p style="" id="joined">'+e.name+' has joined the chat</p>');
     });
 
-    dispatcher.bind('controls', function(e){
-
+    channel.bind('controls', function(e){
+        
         if(e.message === 'play'){
             audio.play();
         }
-        else if (id != e.id && e.message == 'seek') {
+        else if (currentUser.id != e.id && e.message == 'seek') {
+            sender = e;
             audio.currentTime = e.time;
-            audio.play();
         }
-        else if (id != e.id && e.message == 'pause'){
+        else if (currentUser.id != e.id && e.message == 'pause'){
             audio.pause();
         }
         else if (e.message == 'switchSrc'){
-            alert(e.src);
             $('audio').attr('src', e.src);
-            alert($('audio').attr('src'));
         }
     });
 
-    dispatcher.bind('message', function(e){
+    channel.bind('message', function(e){
         $('#joined').remove();
         $('#message').prepend('<p style="padding:0px;">'+e.name+': '+e.data+'</p>');
     });
 
     $('#link').click(function(e){
         e.preventDefault();
-        dispatcher.trigger('message', {data: {data: $('textarea').val(), name: user_name, id: id}});
+        channel.trigger('message', {data: {data: $('textarea').val(), name: user_name, id: id}});
         $('textarea').val('');
         $('textarea').focus();
     });
 
     $('#messageBox').keypress(function(e){
         if(e.which == 13){
-            dispatcher.trigger('message', {data: {data: $('#messageBox').val(), name: user_name, id: id}});
+            channel.trigger('message', {data: $('#messageBox').val(), name: currentUser.name, id: currentUser.id});
             $('#messageBox').val('');
             $('#messageBox').focus();
         }
@@ -82,7 +96,7 @@
     
     $('#load').click(function(e){
     	e.preventDefault();
-    	var data = {data: 'switchSrc', id: id, src: $('select option:selected').val()};
-    	dispatcher.trigger('controls', {data: data});
+    	var data = {message: 'switchSrc', id: currentUser.id, src: $('select option:selected').val(), channelName: channel_name};
+    	channel.trigger('controls', data);
     });
 });

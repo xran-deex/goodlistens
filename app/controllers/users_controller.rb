@@ -141,7 +141,6 @@ class UsersController < ApplicationController
 
   def chat
     api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
-    puts 'chat called'
     @@lastfm = Lastfm.new(@@api_key, api_secret)
     if current_user.lastfm_key != nil
     @@lastfm.session = current_user.lastfm_key
@@ -160,5 +159,9 @@ class UsersController < ApplicationController
     current_user.name = params[:user][:first_name] + ' ' + params[:user][:last_name]
     current_user.save
     redirect_to '/browse'
+  end
+
+  def initiate_chat
+    WebsocketRails[:initiate].trigger(:chat_request, {id: current_user.id, name: current_user.name, friend_id: params[:friend_id]})
   end
 end

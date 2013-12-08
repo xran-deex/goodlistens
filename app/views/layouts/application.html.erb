@@ -10,11 +10,12 @@
   <% end %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
-  <% controller = params[:controller] %>
-  <% if controller != 'application' %>
-    <%= javascript_include_tag controller %>
+
+  <% if params[:controller] != 'application' and params[:action] != 'chat' %>
+    <%= javascript_include_tag params[:controller] %>
+    <%= javascript_include_tag '/assets/websockets/websockets' %>
   <% end %>
-  <% if request.fullpath == '/chat' %>
+  <% if params[:action] == 'chat' %>
     <%= javascript_include_tag 'websocket_rails/main' %>
     <%= javascript_include_tag "share" %>
   <% end %>

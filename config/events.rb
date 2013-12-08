@@ -9,9 +9,10 @@ WebsocketRails::EventMap.describe do
   subscribe :message, :to => ChatController, :with_method => :message
   subscribe :controls, :to => ChatController, :with_method => :controls
   subscribe :set_id, :to => ChatController, :with_method => :set_id
-  # Here is an example of mapping namespaced events:
-  #   namespace :product do
-  #     subscribe :new, :to => ProductController, :with_method => :new_product
-  #   end
-  # The above will handle an event triggered on the client like `product.new`.
+  subscribe :send_status, :to => OnlineController, :with_method => :send_status
+  private_channel :private_chat
+  
+  namespace :websocket_rails do
+    subscribe :subscribe_private, :to => AuthorizationController, :with_method => :authorize_channels
+  end
 end

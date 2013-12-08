@@ -2,12 +2,15 @@
     <div class='col-md-8'>
 <h1>Chat and share music</h1>
 <br/> 
-<%= javascript_tag do %>
-var user_id = <%= current_user.id %>
-<% end %>
+<script type="text/javascript">
+    window.currentUser = {
+        id : <%=current_user.id %>,
+        name: '<%= current_user.name %>'
+    }
+  </script>
 	<div class='col-md-10'>
     <input type='text' rows='3' cols='20' class='form-control' id='messageBox'></input><br/>
-    <!-- <button class='btn' id='link'>Send Message</button> -->
+
     <br/>
     <div id='message' class='jumbotron' style='padding-top:10px;margin-top:10px;height:200px;overflow-y:scroll'></div>
 	</div>

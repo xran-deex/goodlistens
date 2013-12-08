@@ -1,0 +1,67 @@
+$(function(){
+    var dispatcher2 = new WebSocketRails('192.168.1.11:3000/websocket');
+
+    dispatcher2.bind('send_status', sendStatus);
+
+    dispatcher2.bind('updateStatus', update_status);
+
+    var channel = dispatcher2.subscribe('initiate');
+    channel.bind('chat_request', chat_request);
+
+    function chat_request (id) {
+        var random = Math.floor(Math.random() * 1000000);
+        if(id.status == 'accepted'){
+            window.open('/chat/'+id.id, 'Chat', 'left=300,top=50,width=500,height=500,toolbar=1,resizable=0');
+        }
+        else if(id.name != currentUser.name && id.friend_id == currentUser.id){
+            $('#modal_body').html   (currentUser.name + ' wants to chat with you.');
+            $('#chat_request_dialog').modal('show');
+
+        }
+        $('#yes').click(function(){
+                window.open('/chat/'+random, 'Chat', 'left=50,top=50,width=500,height=500,toolbar=1,resizable=0');
+                $('#chat_request_dialog').modal('hide');
+                channel.trigger('chat_request', {status: 'accepted', id: random});
+        });
+
+    }
+
+    function update_status(data){
+        if(data.online == false){
+             $('#chat_link'+data.id).html('');
+        } else {
+             $('#chat_link'+data.id).html(' - online');
+        }
+    };
+
+    var enableHandler = true;
+    $(window).mousemove(function (e) {
+        if (enableHandler) {
+            enableHandler = false;
+            seconds = 0;
+            dispatcher2.trigger('send_status', {data: {status: 'update', id: currentUser.id, name: currentUser.name }})
+        }
+    });
+
+    var seconds = 0;
+
+    function sendStatus(data){
+        alert('It took you '+data+' seconds to move');
+    };  
+
+    window.setInterval(function(){
+        enableHandler = true;
+        seconds += 1;
+        if(seconds > 10){
+            dispatcher2.trigger('send_status', {data: {status: 'idle', id: currentUser.id, name: currentUser.name}});
+            seconds = 0;
+        }
+            
+    }, 1000); 
+
+
+    // $(window).bind("beforeunload", function() { 
+    //     dispatcher2.trigger('send_status', {data: {status: 'idle', id: currentUser.id, name: currentUser.name}});
+    // });
+
+});
