@@ -4,8 +4,13 @@ gem 'rails', '3.2.14'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
+group :development, :test do
+    gem 'sqlite3'
+end
 
-gem 'sqlite3'
+group :production do
+    # gem 'mysql2'
+end
 
 gem 'omniauth'
 gem 'omniauth-oauth2', '1.0.2'
@@ -15,8 +20,6 @@ gem 'devise'
 gem 'typhoeus'
 gem '7digital'
 gem 'websocket-rails'
-#gem 'gemcutter'
-#gem 'tumble'
 gem 'lastfm'
 gem 'fb_graph'
 

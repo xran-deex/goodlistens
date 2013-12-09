@@ -45,9 +45,9 @@ $(function(){
 
     var seconds = 0;
 
-    function sendStatus(data){
-        alert('It took you '+data+' seconds to move');
-    };  
+    // function sendStatus(data){
+    //     alert('It took you '+data+' seconds to move');
+    // };  
 
     window.setInterval(function(){
         enableHandler = true;
@@ -58,10 +58,5 @@ $(function(){
         }
             
     }, 1000); 
-
-
-    // $(window).bind("beforeunload", function() { 
-    //     dispatcher2.trigger('send_status', {data: {status: 'idle', id: currentUser.id, name: currentUser.name}});
-    // });
 
 });

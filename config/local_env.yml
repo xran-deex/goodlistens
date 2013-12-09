@@ -1,0 +1,2 @@
+SERVER_ADDRESS_DEV: 'localhost:3000'
+SERVER_ADDRESS_PRO: 'valis.strangled.net:8080'
