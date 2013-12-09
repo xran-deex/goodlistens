@@ -22,4 +22,10 @@ class UploadController < ApplicationController
       render :partial => '/upload/fileList', :locals => { :files => @files }
    
   end
+
+  def delete
+    file = params[:file]
+    File.delete(Rails.root.join('public', 'uploads', current_user.id.to_s, file))
+    render nothing: true
+  end
 end

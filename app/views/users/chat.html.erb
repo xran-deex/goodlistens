@@ -23,7 +23,7 @@
             <option value='<%= root_path %>uploads/<%= current_user.id %>/<%= f %>'><%= f %></option>
         <% end %>
         <% if current_user.lastfm_key != nil %>
-        <option value='<%= @track %>'>Lastfm</option>
+            <option value='<%= @track %>'>Lastfm</option>
         <% end %>
     </select>
     <br/>

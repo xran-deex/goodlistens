@@ -5,23 +5,45 @@
         name: '<%= current_user.name %>'
     }
   </script>
+  <!-- Request chat dialog -->
   <div class="modal fade" id='chat_request_dialog'>
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Wanna chat?</h4>
-                  </div>
-                  <div class="modal-body">
-                    <p id='modal_body'>A friend wants to chat with you.</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
-                    <button type="button" class="btn btn-primary" id='yes' data-id='1'>Accept</button>
-                  </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Wanna chat?</h4>
+        </div>
+        <div class="modal-body">
+          <p id='modal_body'>A friend wants to chat with you.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
+          <button type="button" class="btn btn-primary" id='yes' data-id='1'>Accept</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+<!-- Confirm file deletion -->
+  <div class="modal fade" id='confirm_delete_dialog'>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Delete file?</h4>
+        </div>
+        <div class="modal-body">
+          <p id='modal_body'>Are you sure you want to delete?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-primary" id='delete_btn' data-id='1'>Yes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
     <div class='row'>
         <ul class="nav nav-tabs nav-justified">
           <li class='active'><a href="#home" data-toggle="tab">Home</a></li>
@@ -90,11 +112,7 @@
             <div class='panel panel-default'>
               <div class='panel-heading'>Uploaded files:</div>
                 <div class='panel-body' style='height:200px;overflow-y:auto'>
-                  <ul id="fileList" class='list-unstyled'>
-                    <% @files.each do |f| %>
-                      <li><%= f %></li>
-                    <% end %>
-                  </ul>
+                  <%= render 'upload/fileList' %>
                 </div>
               </div>
           </div>

@@ -19,6 +19,31 @@ $(function(){
         return false;
     });
 
+    var file_to_delete = null;
+
+    $('.file_delete').click(function(e){
+        $('#confirm_delete_dialog').modal('show');
+        file_to_delete = $(this);
+    });
+
+    $('#delete_btn').click(function(e){
+        $('#confirm_delete_dialog').modal('hide');
+        delete_file(); 
+    });
+
+    function delete_file(){
+        $.ajax({
+            url: '/upload/delete',
+            type: 'post',
+            data: {file: file_to_delete.attr('id')},
+            success: function(data){
+                file_to_delete.alert('close');
+            }
+        });
+    };
+
+    $('.file_delete').bind('close.bs.alert', function(e){alert('deleted');});
+
     $(document)
         .on('change', '.btn-file :file', function() {
             var input = $(this),
@@ -29,10 +54,9 @@ $(function(){
 
     $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         var fileList = $('#files');
-        fileList.val(label + ' - ' + numFiles);
+        fileList.val(label);
         fileList.after('<span id="submitGroup" class="input-group-btn"><span class="btn btn-primary" id="uploadSubmit">Submit</span></span>');
         $('#uploadSubmit').click(function(e){
-            // $('#uploadForm').submit();
             $('.progress').show();
             doUpload();
         });

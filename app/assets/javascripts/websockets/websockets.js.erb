@@ -14,7 +14,7 @@ $(function(){
             window.open('/chat/'+id.id, 'Chat', 'left=300,top=50,width=500,height=500,toolbar=1,resizable=0');
         }
         else if(id.name != currentUser.name && id.friend_id == currentUser.id){
-            $('#modal_body').html   (currentUser.name + ' wants to chat with you.');
+            $('#modal_body').html   (id.name + ' wants to chat with you.');
             $('#chat_request_dialog').modal('show');
 
         }
@@ -45,9 +45,9 @@ $(function(){
 
     var seconds = 0;
 
-    // function sendStatus(data){
-    //     alert('It took you '+data+' seconds to move');
-    // };  
+    function sendStatus(data){
+        alert('It took you '+data+' seconds to move');
+    };  
 
     window.setInterval(function(){
         enableHandler = true;

@@ -1,5 +1,5 @@
-<ul id="fileList" class='list-unstyled'>
-<% @files.each do |f| %>
-  <li><%= f %></li>
-<% end %>
+<ul id="fileList" class='list-unstyled list-group'>
+    <% @files.each do |f| %>
+      <li class='list-group-item'><%= f %><button id='<%= f %>' type="button" class="close file_delete" data-dismiss="" aria-hidden="true">&times;</button></li>
+    <% end %>
 </ul>
