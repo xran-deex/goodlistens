@@ -70,11 +70,33 @@
           <div class="tab-pane" id="profile">
           <div class='col-md-6'>
             <h3>Upload an mp3</h3>
-            <%= form_tag '/upload/uploadFile', :multipart => true do %>
-                <p><label for="upload_file">Select File</label>: 
-                <%= file_field_tag 'file' %></p>
-                <%= submit_tag "Upload", class: 'btn' %>
+            <%= form_tag('/upload/uploadFile', id: 'uploadForm', multipart: true, remote: true) do %>
+            <div class="input-group">
+              <span class="input-group-btn">
+                <span class="btn btn-primary btn-file">
+                  Browse&hellip; <input type="file" id='file' name='file' accept='audio/*' >
+                </span>
+              </span>
+              <input type="text" class="form-control" id='files' readonly>
+            </div>
             <% end %>
+            <br/>
+            <div class="progress progress-striped active">
+              <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span class="sr-only"></span>
+              </div>
+            </div>
+            <br/>
+            <div class='panel panel-default'>
+              <div class='panel-heading'>Uploaded files:</div>
+                <div class='panel-body' style='height:200px;overflow-y:auto'>
+                  <ul id="fileList" class='list-unstyled'>
+                    <% @files.each do |f| %>
+                      <li><%= f %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
           </div>
             <br/>
             <div class='col-md-6'>
@@ -92,9 +114,11 @@
               </div>
             </div>
             <div class='col-md-6'>
-              <%= link_to 'Update name', more_info_path %>
-              <p>Name: <%= current_user.name %></p>
-              <p>Email: <%= current_user.email %></p> 
+              <%= form_for current_user, url: '/user/'+current_user.id.to_s+'/update', class: 'form' do |u| %>
+              <p>Name: <%= u.text_field :name, class: 'form-control' %></p>
+              <p>Email: <%= u.text_field :email, class: 'form-control' %></p> 
+              <%= u.submit 'Save', class: 'form-control' %>
+              <% end %>
             </div>
           </div>
           <div class="tab-pane" id="friends">

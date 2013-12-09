@@ -1,4 +1,6 @@
 $(function(){
+    $('.progress').hide();
+
     $('#first_name').click(function(){
         $(this).val('');
     })
@@ -16,4 +18,64 @@ $(function(){
         $('#authorize').attr('id', 'finalize');
         return false;
     });
+
+    $(document)
+        .on('change', '.btn-file :file', function() {
+            var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+        });
+
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        var fileList = $('#files');
+        fileList.val(label + ' - ' + numFiles);
+        fileList.after('<span id="submitGroup" class="input-group-btn"><span class="btn btn-primary" id="uploadSubmit">Submit</span></span>');
+        $('#uploadSubmit').click(function(e){
+            // $('#uploadForm').submit();
+            $('.progress').show();
+            doUpload();
+        });
+
+    });
+
+    function doUpload(){
+        var formData = new FormData(    );
+        formData.append( 'file', $( '#file' )[0].files[0] );
+        $.ajax({
+            url: '/upload/uploadFile',  //Server script to process data
+            type: 'POST',
+            xhr: function() {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){ // Check if upload property exists
+                    myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+                }
+                return myXhr;
+            },
+            success: function(data){
+                $('.progress').hide();
+                $('.progress-bar').attr('style', 'width: 0%').attr('aria-valuenow', '0');
+                $('#submitGroup').remove();
+                $('#fileList').replaceWith(data);
+            },
+            // Form data
+            data: formData,
+            //Options to tell jQuery not to process data or worry about content-type.
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    function progressHandlingFunction(e){
+        // alert(e);
+        if(e.lengthComputable){
+            var value = Math.floor(e.loaded / e.total) * 100;
+            // if(value == 5) alert(value);
+            // alert(value);
+            $('.progress-bar').attr('style', 'width: '+value+'%');
+            $('.progress-bar').attr('aria-valuenow', value);
+        }
+    }
+
 });

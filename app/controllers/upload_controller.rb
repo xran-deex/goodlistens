@@ -4,7 +4,7 @@ class UploadController < ApplicationController
 
   def uploadFile
     require 'fileutils'
-    puts current_user.id.to_s
+    puts params
     uploaded_io = params[:file]
     dir = File.dirname(Rails.root.join('public', 'uploads', current_user.id.to_s, uploaded_io.original_filename))
     puts dir
@@ -14,6 +14,12 @@ class UploadController < ApplicationController
     File.open(Rails.root.join('public', 'uploads', current_user.id.to_s, uploaded_io.original_filename), 'wb') do |file|
         file.write(uploaded_io.read)
     end
-    redirect_to :back
+
+    dir = File.dirname(Rails.root.join('public', 'uploads', current_user.id.to_s, 'nothing'))
+
+    @files = Dir.entries(dir).select {|f| !File.directory? f}
+    
+      render :partial => '/upload/fileList', :locals => { :files => @files }
+   
   end
 end

@@ -4,21 +4,16 @@ class UsersController < ApplicationController
   @@api_key = 'bc2c15f1d4576dd43e1a8ae69e86fc44'
   @@lastfm = nil
   def index
-    # require 'lastfm'
-    # api_secret = 'eba6ba8d81fafe2d39a1df4a6d23fefb'
-    # @@lastfm = Lastfm.new(@@api_key, api_secret)
+
     session['token'] = nil
-    # if session['token'] == nil
-    #   puts 'token was null'
-    #   @token = @@lastfm.auth.get_token
-    #   session['token'] = @token
-    # end
+
     puts current_user.id
     dir = File.dirname(Rails.root.join('public', 'uploads', current_user.id.to_s, 'nothing'))
-    puts dir
+    
     unless File.directory?(dir)
         FileUtils.mkdir_p(dir)
     end
+    @files = Dir.entries(dir).select {|f| !File.directory? f}
     client = Sevendigital::Client.new
     
     top = current_user.ratings.where('rating>4').limit(1)[0]
@@ -153,6 +148,13 @@ class UsersController < ApplicationController
     path = Rails.root.join('public', 'uploads', current_user.id.to_s)
     @files = Dir.entries(path).select {|f| !File.directory? f}
     # end
+  end
+
+  def update
+    current_user.name = params[:user][:name]
+    current_user.email = params[:user][:email]
+    current_user.save
+    redirect_to user_path
   end
 
   def add_name
