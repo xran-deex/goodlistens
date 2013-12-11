@@ -1,5 +1,5 @@
 <ul id="fileList" class='list-unstyled list-group'>
     <% @files.each do |f| %>
-      <li class='list-group-item'><%= f %><button id='<%= f %>' type="button" class="close file_delete" data-dismiss="" aria-hidden="true">&times;</button></li>
+      <li class='list-group-item rename_filename'><a href='#' class='rename' data-toggle='tooltip' title='Rename file'><%= f %></a><button id='<%= f %>' type="button" class="close file_delete" data-dismiss="" aria-hidden="true" data-toggle='tooltip' title='Delete'>&times;</button></li>
     <% end %>
 </ul>

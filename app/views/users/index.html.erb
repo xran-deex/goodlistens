@@ -43,9 +43,36 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
+  <!-- Rename file dialog -->
+  <div class="modal fade" id='rename_file_dialog'>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Rename file</h4>
+        </div>
+        <div class="modal-body">
+          <p id='modal_body'>Enter the new filename: <input id='newFileName' class='form-control' type='text'/></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
+          <button type="button" class="btn btn-primary" id='rename_btn' data-id='1'>OK</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!-- Rename tooltip -->
+  <div class="tooltip">
+2   <div class="tooltip-inner">
+3     Rename this file
+4   </div>
+5   <div class="tooltip-arrow"></div>
+6 </div>
+
 
     <div class='row'>
-        <ul class="nav nav-tabs nav-justified">
+        <ul id='navtabs' class="nav nav-tabs nav-justified">
           <li class='active'><a href="#home" data-toggle="tab">Home</a></li>
           <li><a href="#reviews" data-toggle="tab">Reviews</a></li>
           <li><a href="#ratings" data-toggle="tab">Ratings</a></li>

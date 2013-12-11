@@ -28,4 +28,11 @@ class UploadController < ApplicationController
     File.delete(Rails.root.join('public', 'uploads', current_user.id.to_s, file))
     render nothing: true
   end
+
+  def rename
+    oldFile = params[:oldFileName]
+    newFile = params[:newFileName]
+    File.rename(Rails.root.join('public', 'uploads', current_user.id.to_s, oldFile), Rails.root.join('public', 'uploads', current_user.id.to_s, newFile))
+    render nothing: true
+  end
 end

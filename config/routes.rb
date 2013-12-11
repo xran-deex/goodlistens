@@ -9,6 +9,7 @@ Goodlistens::Application.routes.draw do
 
   post "upload/uploadFile", as: :upload
   post 'upload/delete', as: :deleteFile
+  post 'upload/rename', as: :renameFile
 
   get "rate_and_review/rate"
 

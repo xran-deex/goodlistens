@@ -19,9 +19,55 @@ $(function(){
         return false;
     });
 
+    var oldFileName = null;
+    var liElement = null;
+
+    $('.panel-body').on('click', '.rename', function(e){
+        if(e.target.id == ''){
+            oldFileName = $(this).text();
+            $('#newFileName').val(oldFileName);
+            liElement = $(this);
+            $('#rename_file_dialog').modal('show');
+        } else {
+            $('.file_delete').trigger('click');
+        }
+    });
+
+    $('.panel-body').on('DOMNodeInserted', function(){
+        $('.rename').tooltip();
+        $('.file_delete').tooltip({'placement': 'left'});
+    })
+
+    $('.rename').tooltip();
+    $('.file_delete').tooltip({'placement': 'left'});
+
+    $('#newFileName').keypress(function(e){
+        if(e.which == 13){
+            $('#rename_btn').trigger('click');
+        }
+    });
+
+    $('#rename_btn').click(function(){
+        postRename(oldFileName);
+        $('#rename_file_dialog').modal('hide');
+    })
+
+    function postRename(fileName){
+        var newFile = $('#newFileName').val();
+        $.ajax({
+            url: '/upload/rename',
+            type: 'post',
+            data: {newFileName: newFile, oldFileName: fileName},
+            success: function(data){
+                liElement.html(newFile);
+                oldFileName = null;
+            }
+        });
+    }
+
     var file_to_delete = null;
 
-    $('.file_delete').click(function(e){
+    $('.panel-body').on('click', '.file_delete', function(e){
         $('#confirm_delete_dialog').modal('show');
         file_to_delete = $(this);
     });
@@ -81,6 +127,7 @@ $(function(){
                 $('.progress-bar').attr('style', 'width: 0%').attr('aria-valuenow', '0');
                 $('#submitGroup').remove();
                 $('#fileList').replaceWith(data);
+                $('#files').val('');
             },
             // Form data
             data: formData,
@@ -92,11 +139,8 @@ $(function(){
     }
 
     function progressHandlingFunction(e){
-        // alert(e);
         if(e.lengthComputable){
             var value = Math.floor(e.loaded / e.total) * 100;
-            // if(value == 5) alert(value);
-            // alert(value);
             $('.progress-bar').attr('style', 'width: '+value+'%');
             $('.progress-bar').attr('aria-valuenow', value);
         }
