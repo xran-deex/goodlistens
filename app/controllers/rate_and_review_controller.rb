@@ -13,6 +13,7 @@ class RateAndReviewController < ApplicationController
     @album = Album.find_or_create_by_remote_id(params[:album])
     @review.reviewable = @album
     @review.review = params[:review]
+    @review.title = params[:title]
     if !@review.save
       @review = nil
     end
@@ -27,8 +28,18 @@ class RateAndReviewController < ApplicationController
 
   def update
     @review = Review.find(params[:review_id])
+    @review.title = params[:title]
     @review.review = params[:review]
     @review.save
-    render text: @review.review
+    render @review
+  end
+
+  def destroy
+    review = Review.find(params[:review_id])
+    review.destroy
+    render nothing: true
+    # @album = Album.find_or_create_by_remote_id(params[:album])
+    # @reviews = @album.reviews.order(:created_at => :asc)
+    # render :partial => '/album/reviews', :locals => { :r => @review }
   end
 end

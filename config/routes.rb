@@ -12,7 +12,6 @@ Goodlistens::Application.routes.draw do
   post 'upload/rename', as: :renameFile
 
   get "rate_and_review/rate"
-
   get "rate_and_review/review"
 
   get "album/details", as: :album_details
@@ -30,7 +29,8 @@ Goodlistens::Application.routes.draw do
   get 'details', to: 'application#details', as: :details
   post 'rate', to: 'rate_and_review#rate', as: :rate_album
   post 'album/review', to: 'rate_and_review#review', as: :review_album
-  put 'album/review', to: 'rate_and_review#update', as: :update_album
+  put 'album/review', to: 'rate_and_review#update', as: :update_review
+  delete 'album/review', to: 'rate_and_review#destroy', as: :delete_review
 
   get 'home', to: 'users#index', as: :user
   get 'user/(:id)', to: 'users#other_user', as: :other_user

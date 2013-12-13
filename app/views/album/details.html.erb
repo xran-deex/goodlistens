@@ -1,7 +1,6 @@
 <div class='container'>
-    
     <h1><%=  @album.title %></h1>
-    <div class='col-md-7'>
+    <div class='col-xs-12 col-md-7'>
         <%= image_tag(@album.image(500), :class=> 'img-responsive') %>
     </div>
     <div class='col-md-5'>
@@ -17,29 +16,54 @@
     </div>
     <div class='container' style='clear:both'>
         <% if user_signed_in? %>
-        <h4 style='float:left;margin-right:10px' name='title'>Review this album:</h4>
+        <h4 style='float:left;margin-right:10px' name='title'>Rate this album:</h4>
         <%= render '/stars_div', :i=>1 %>
                 <% @rating = Rating.where(:user_id=>current_user, :reviewable_id=>Album.find_by_remote_id(@album.id)) %>
             <%= render '/rating_js', :rating => @rating[0], :i => 1, :album => @album %>
+            <hr>
            
             <% if @no_form == nil %>
-                <%=  form_for @review, url: '/album/review', method: 'post', html: {class: 'form', id: 'review_form'} do |f| %>
-                    <div class='form-group'>
-                        <textarea name='review' class='form-control' cols='80' rows='4'></textarea>
-                    </div>
-                    <input type='hidden' name='album' id='album_id' value='<%= @album.id %>'>
-                    <%= f.submit 'Submit', class: 'btn' %>
-                <% end %>
+            <div id='review_form'>
+                <div class='form-group'>
+                    <label for='reviewTitle'>Title:</label>
+                    <input type='text' class='form-control' name='title' id='reviewTitle'/>
+                </div>
+                <div class='form-group'>
+                    <label for='reviewText'>Review:</label>
+                    <textarea name='review' class='form-control' id='reviewText' cols='80' rows='4'></textarea>
+                </div>
+                <input type='hidden' name='album' id='album_id' value='<%= @album.id %>'>
+                <button class='btn btn-primary submit-btn'>Submit</button> 
+            </div>
             <% end %>
         <% end %>
         <div id='reviews'>
-            <h3 id='review_header'>Reviews:</h3>
+            <h4 id='review_header'>Reviews:</h4>
             <% if @reviews != nil %>
                 <% @reviews.each do |r| %>
                     <%= render 'reviews', :r => r %>
+                    <hr>
                 <% end %>
             <% end %>
         </div>
         
     </div>
+    <!-- Confirm file deletion -->
+      <div class="modal fade" id='confirm_delete_dialog'>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Delete review?</h4>
+            </div>
+            <div class="modal-body">
+              <p id='modal_body'>Are you sure you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+              <button type="button" class="btn btn-primary" id='delete_btn' data-id='1'>Yes</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
 </div>

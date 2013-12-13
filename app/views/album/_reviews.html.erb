@@ -1,13 +1,15 @@
 <% if r != nil %>
     <% if r.user.id != current_user.id %>
-    <h5><a 
+    <h3><%= r.title %></h3>
+    <p><%= r.review %></p>
+    <h3><small><a 
         <% if current_user.friends.include?(r.user) %>
             href='<%= other_user_path(r.user) %>'
         <% else %> 
             data-target='#addFriend<%= r.user.id %>'
         <% end %>
         data-toggle='modal'>
-        <%= r.user.name %></a> - <%= r.created_at %>:</h5><p><%= r.review %></p>
+        <%= r.user.name %></a> - <%= r.created_at %></small></h3>
     <div class="modal fade" id='addFriend<%= r.user.id %>'>
       <div class="modal-dialog">
         <div class="modal-content">
@@ -25,7 +27,10 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    
     <script type="text/javascript">
+        
         $('#addFriend<%= r.user.id %>').on('show.bs.modal', function(){
             <% if current_user.friends.include?(r.user) %>
                 $('#addFriend<%= r.user.id %>').modal('hide');
@@ -41,50 +46,19 @@
         });
     </script>
     <% else %>
-    <h5><%= r.user.name %> - <%= r.created_at.to_formatted_s(:short) %>:
-        <a href='#' id='edit'>Edit</a>, Share: <%= link_to image_tag('facebook_32.png'), fb_post_path(:title => 'Check out my review on goodlistens.com', :url => 'http://www.goodlistens.com'+request.fullpath, :desc => 'goodlistens: Review and share music') %>
-        <script type="text/javascript">
-        $(function(){
-            $('#edit').click(function(e){
-                e.preventDefault();
-                $('#users_review').replaceWith("<textarea name='review' class='form-control' cols='80' rows='4'></textarea>");
-                $('textarea').val('<%= r.review %>');
-                $('#edit').text('Update');
-                $('#edit').attr('id', 'update');
-                $(this).replaceWith("<a href='#' id='update'>Update</a>");
-                updateId();
-            });
-            updateId = function(){
-                $('#update').click(function(e){
-                    e.preventDefault();
-                    $.ajax({
-                        url: '/album/review',
-                        method: 'put',
-                        data: {review: $('textarea').val(), review_id: '<%= r.id %>'},
-                        success: function(data){
-                            $('textarea').replaceWith('<p>'+data+'</p>');
-                            $('#update').text('Edit');
-                            $('#update').attr('id', 'edit');
-                            $(this).replaceWith("<a href='#' id='edit'>Edit</a>");
-                            updateEdit();
-                        }
-                    });
-                    
-                });
-            };
-            updateEdit = function(){
-                $('#edit').click(function(e){
-                    e.preventDefault();
+    <div id='user_review'>
+        <h3 id='users_review_title'><%= r.title %></h3>
+        <p id='users_review'><%= r.review %></p>
+        <h3><small><%= r.user.name %> - <%= r.created_at.to_formatted_s(:short) %>
+        <input type='hidden' name='album' id='review_id' value='<%= r.id %>'>
+        <br/>
+        <a href='#' class='btn btn-default edit' role='button' id='<%= r.id %>'>Edit</a>
+        <a href='#' class='btn btn-default delete_review' role='button'>Delete</a>
+        Share: </small><%= link_to image_tag('facebook_32.png'), fb_post_path(:title => 'Check out my review on goodlistens.com', :url => 'http://www.goodlistens.com'+request.fullpath, :desc => 'goodlistens: Review and share music') %>
+        <a href="https://plus.google.com/share?url=valis.strangled.net:8080" onclick="javascript:window.open(this.href+window.location.pathname+window.location.search,
+          '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+          <img src="https://www.gstatic.com/images/icons/gplus-32.png" alt="Share on Google+"/></a></h3>
+      </div>
 
-                    $('#users_review').replaceWith("<textarea name='review' class='form-control' cols='80' rows='4'></textarea>");
-                    $('textarea').val('<%= r.review %>');
-                    $('#edit').text('Update');
-                    $('#edit').attr('id', 'update');
-                    updateId();
-                });
-            };
-        });
-        </script>
-    </h5><p id='users_review'><%= r.review %></p>
     <% end %>
 <% end %>

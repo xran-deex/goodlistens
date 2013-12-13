@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131203023341) do
+ActiveRecord::Schema.define(:version => 20131211201020) do
 
   create_table "albums", :force => true do |t|
     t.integer "remote_id"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(:version => 20131203023341) do
     t.text     "review"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "title"
   end
 
   add_index "reviews", ["reviewable_id"], :name => "index_reviews_on_reviewable_id"
