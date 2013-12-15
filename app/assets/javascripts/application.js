@@ -22,6 +22,10 @@
 $(function(){
     $('.star-rating-control').attr('class', 'center-block');
     $('.alert-success').delay(1500).fadeOut('slow');
+    $('.form-control').keypress(function(e){
+        $('.alert-danger').fadeOut('slow');
+    });
+    
     var currentPage = location.pathname;
     currentPage = currentPage.split('?')[0];
     $('.nav > li').each(function(){
