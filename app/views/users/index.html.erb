@@ -84,31 +84,35 @@
         <div class="tab-content" style='margin-right:10px;'>
           <div class="tab-pane active" id="home">
             <% if user_signed_in? %>
-                <h3>Welcome, <%= current_user.name %></h3>
+                <h3 class='text-center'>Welcome, <%= current_user.name %></h3>
                 <%=  %>
             <% end %>
           </div>
           <div class="tab-pane" id="reviews">
             <% if !@reviews.empty? and !@recent_reviews.empty? %>
-                <h4>Recent activity: </h4>
-                <ul class='list-unstyled'>
-                    <% @reviews.zip(@recent_reviews)[0...5].each do |r, a| %>
+                <h4>Recent Reviews: </h4>
+                    <% @reviews.zip(@recent_reviews)[0...8].each do |r, a| %>
                         <% if a != nil and r.review != nil %>
-                        <li><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= a.title %></a>: <%= r.review %><br/><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= image_tag(a.image(100)) %></a></li>
+                        <div class='col-xs-12 col-ms-6 col-sm-4 col-md-6' style='margin-bottom:10px'>
+                          <div class='col-md-6'><a href='/album/details?remote_id=<%=r.reviewable.remote_id%>' class='lead'>
+                            <%= a.title[0,15] %><%if a.title.length >15%>...<%end%>:<br/>
+                            <a href='/album/details?remote_id=<%=r.reviewable.remote_id%>'><%= image_tag(a.image(350), :class=>'img-responsive') %></a></div>
+                          <div class='col-md-6 pull-left' style='min-height: 200px'>
+                            Your review:<blockquote> <p><%= r.review %></p></blockquote>
+                        </div>
+                      </div>
                         <% end %>
                     <% end %>
-                </ul>
                 <% end %>
           </div>
           <div class="tab-pane" id="ratings">
             <h4>Recent Ratings:</h4>
-            <ul class='list-unstyled'>
                 <% i = 0 %>
                 <% @ratings.zip(@recents).each do |r, a| %>
                     <% if a != nil and r.rating != nil %>
-                        <li><%= a.artist.name %> - <a href='/album/details?remote_id=<%=a.id%>'><%= a.title %><br/><%= image_tag(a.image(100)) %></a>
+                        <div class='col-xs-12 col-ms-6 col-sm-4 col-md-3 center-block'><%= a.artist.name %>:<br/><a href='/album/details?remote_id=<%=a.id%>'><%= a.title[0,15] %><%if a.title.length >15%>...<%end%><br/><%= image_tag(a.image(350), :class=>'img-responsive') %></a>
                         <%= render '/stars_div', :i=>i %>
-                        </li>
+                        </div>
                         <%= render '/rating_js', :rating=>r, :i=>i, :album => a %>
                     <% end %>
                     <% i+=1 %>
@@ -170,7 +174,7 @@
             <h4>Friends:</h4>
             <ul class='list-unstyled' >
                 <% current_user.friends.each_with_index do |f, i| %>
-                    <li><a href='/user/<%= f.id %>' id='friend<%= f.id %>'><%= f.name %></a>
+                    <li class='lead'><a href='/user/<%= f.id %>' id='friend<%= f.id %>'><%= f.name %></a>
                       <a href='/initiate_chat?id=<%=current_user.id%>&friend_id=<%=f.id%>' data-remote="true" id='chat_link<%= f.id %>' </a></li>
                 <% end %>
             </ul>

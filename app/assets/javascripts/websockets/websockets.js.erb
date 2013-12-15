@@ -29,8 +29,19 @@ $(function(){
     function update_status(data){
         if(data.online == false){
              $('#chat_link'+data.id).html('');
+             $('#chat_link'+data.id).attr('title', '');
+             $('#chat_link'+data.id).attr('data-toggle', '');
+             $('#chat_link'+data.id).tooltip('hide');
         } else {
-             $('#chat_link'+data.id).html(' - online');
+            if($('#chat_link'+data.id).attr('title') != 'Online'){
+                 $('#chat_link'+data.id).html('<button class="btn btn-default btn-xs">Chat</button>');
+                 $('#chat_link'+data.id).attr('data-toggle', 'tooltip');
+                 $('#chat_link'+data.id).attr('title', 'Online');
+                 $('#chat_link'+data.id).tooltip({
+                    'placement': 'right'
+                 });
+                 $('#chat_link'+data.id).tooltip('show');
+            }
         }
     };
 

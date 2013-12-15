@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     end
     @activity = []
     @recents = []
-    @ratings = current_user.ratings.limit(5)
+    @ratings = current_user.ratings.limit(8)
     @ratings.each do |f|
       if f.reviewable != nil
         @recents << client.release.get_details(f.reviewable.remote_id)
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       top_artist = client.release.get_details(top_album).artist
       @recommends = client.artist.get_similar(top_artist.id)
     end
-    @ratings = @user.ratings.limit(5)
+    @ratings = @user.ratings.limit(8)
     @recents = []
     @ratings.each do |f|
       if f.reviewable != nil
@@ -72,10 +72,13 @@ class UsersController < ApplicationController
   def newuser
     client = Sevendigital::Client.new
     @albums = []
+    random = Random.new
 
-    if !session[:albumsPage]
-      page = session[:albumsPage] = 1;
-    end
+    # if session[:albumsPage] == nil
+    session[:albumsPage] = random.rand(300)
+    page = session[:albumsPage]
+    puts page
+    # end
     if params[:genre] != nil
       session[:genre] = params[:genre]
       @genre = session[:genre]
