@@ -1,5 +1,5 @@
  $(function(){  
-    var dispatcher = new WebSocketRails('192.168.1.11:3000/websocket');
+    var dispatcher = new WebSocketRails('localhost:3000/websocket');
     var channel_name = window.location.pathname.split('/')[2];
     var channel = null;
     var private_chat = dispatcher.subscribe(''+channel_name);
