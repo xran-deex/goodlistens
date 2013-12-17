@@ -21,6 +21,8 @@
 
 $(function(){
     $('.star-rating-control').attr('class', 'center-block');
+    $('.recommend').hide();
+    $('.new_friend').hide();
     $('.alert-success').delay(1500).fadeOut('slow');
     $('.form-control').keypress(function(e){
         $('.alert-danger').fadeOut('slow');
@@ -33,7 +35,5 @@ $(function(){
         if(index >= 0)
             $(this).attr('class', 'active');
     });
-    
-
 });
 

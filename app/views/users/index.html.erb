@@ -147,14 +147,14 @@
                 </div>
               </div>
           </div>
-            <br/>
+            <!-- <br/> -->
             <div class='col-md-6'>
             <div class='panel panel-default'>
-              <div class='panel-heading'>Recommendations:</div>
+              <div class='panel-heading'>Suggestions:</div>
                 <div class='panel-body' style='height:200px;overflow-y:auto'>
                   <ul class='list-unstyled'>
-                    <% if @recommends != nil %>
-                    <% @recommends.each do |f| %>
+                    <% if @suggestions != nil %>
+                    <% @suggestions.each do |f| %>
                         <li><a href='/details?artist_id=<%= f.id %>'><%= f.name %></a></li>
                     <% end %>
                     <% end %>
@@ -162,6 +162,7 @@
                 </div>
               </div>
             </div>
+            
             <div class='col-md-6'>
               <%= form_for current_user, url: '/user/'+current_user.id.to_s+'/update', class: 'form' do |u| %>
               <p>Name: <%= u.text_field :name, class: 'form-control' %></p>
@@ -171,13 +172,29 @@
             </div>
           </div>
           <div class="tab-pane" id="friends">
+            <div class='col-md-6'>
+            <div class='panel panel-default'>
+              <div class='panel-heading'>Recommendations:</div>
+                <div class='panel-body' style='height:300px;overflow-y:auto'>
+                  <ul class='list-unstyled'>
+                    <% if @recommends != nil %>
+                    <% @recommends.zip(@recommended_albums).each do |f, a| %>
+                        <li><a href='/album/details?remote_id=<%= f.album_id %>'><%= a.title %><%= image_tag(a.image(100), :class=>'img-responsive') %></a> <%= f.message %> - <%= User.find(f.friend_id).name %>
+                        </li>
+                    <% end %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
             <h4>Friends:</h4>
-            <ul class='list-unstyled' >
+            <ul class='list-unstyled col-md-6'>
                 <% current_user.friends.each_with_index do |f, i| %>
                     <li class='lead'><a href='/user/<%= f.id %>' id='friend<%= f.id %>'><%= f.name %></a>
                       <a href='/initiate_chat?id=<%=current_user.id%>&friend_id=<%=f.id%>' data-remote="true" id='chat_link<%= f.id %>' </a></li>
                 <% end %>
             </ul>
+            
           </div>
         </div>
 

@@ -20,15 +20,21 @@ class UsersController < ApplicationController
     if top != nil
       top_album = top.reviewable.remote_id
       top_artist = client.release.get_details(top_album).artist
-      @recommends = client.artist.get_similar(top_artist.id)
+      @suggestions = client.artist.get_similar(top_artist.id)
 
       #send email recommendation if last login greater than 5 days.
       if current_user.current_sign_in_at - current_user.last_sign_in_at > 60 * 60 * 24 * 5
-        RecommendationMailer.recommend(current_user, @recommends).deliver
+        RecommendationMailer.recommend(current_user, @suggestions).deliver
       end
     end
     @activity = []
     @recents = []
+    @recommends = current_user.recommendations
+    @recommended_albums = []
+    @recommends.each do |r|
+      puts r.album_id
+      @recommended_albums << client.release.get_details(r.album_id)
+    end
     @ratings = current_user.ratings.limit(8)
     @ratings.each do |f|
       if f.reviewable != nil

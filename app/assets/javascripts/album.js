@@ -1,11 +1,39 @@
 $(function(){
+
+    $('#image').popover({
+        title: 'Recommend this!', 
+        html: true,
+        container: 'body',
+        content:"<a href='#' id='recommend'>Recommend</a> this to a friend of yours.",
+        placement: 'auto top'
+    });
+
+    var hidePopover = function(){
+        $('#image').popover('hide');
+    };
+
+    $('#image').mouseleave(function(){
+        window.setTimeout(hidePopover, 4000);
+    }); 
+
+    $('body').on('click', '#recommend', function(){
+        $('#recommendation_dialog').modal('show');
+    });
+
+    $('.popover').mouseover(function(){
+        $('#image').popover('show');
+    });
+
+    $('#image').mouseenter(function(){
+        $('#image').popover('show');
+    });
+
     $('body').on('click', '.submit-btn', function(e){
         e.preventDefault();
         $.ajax({
             url: '/album/review',
             data: {format: 'js', review: $('textarea').val(), album: $('#album_id').val(), title: $('#reviewTitle').val() }, 
             success: function(data){
-                // $('#review_form').remove();
                 $('.form-group').remove();
                 $('.submit-btn').remove();
                 $('#review_header').after(data);
@@ -62,4 +90,28 @@ $(function(){
             }
         });
     });
+    
+    
+
+
+    $('#send-recommend').click(function(){
+        var friends_list = [];
+        $('input:checkbox:checked').each(function(){
+            friends_list.push($(this).val());
+        })
+        $.ajax({
+            url: '/recommend',
+            method: 'post',
+            data: {user_id: currentUser.id, message: $('#message').val(), friends: friends_list, album: $('#album_id').val()},
+            success: function(data){
+                friends_list.forEach(function(el, index, array){
+                    channel.trigger('recommendation', {id: el});
+                });
+                
+                $('#recommendation_dialog').modal('hide');
+                $('.tracks').append("<div class='alert alert-success recommendation_sent alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><p>Recommendation sent!</p></div>");
+            }
+        });
+    });
+
 });

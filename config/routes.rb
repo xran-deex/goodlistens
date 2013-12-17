@@ -7,6 +7,8 @@ Goodlistens::Application.routes.draw do
 
   get "upload/index"
 
+  post 'recommend', to: 'recommendation#send_recommendation', as: :recommend
+
   post "upload/uploadFile", as: :upload
   post 'upload/delete', as: :deleteFile
   post 'upload/rename', as: :renameFile

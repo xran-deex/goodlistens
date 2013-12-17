@@ -1,11 +1,13 @@
 $(function(){
-    var dispatcher2 = new WebSocketRails('192.168.1.11:3000/websocket');
-
-    dispatcher2.bind('send_status', sendStatus);
+    window.dispatcher2 = new WebSocketRails('192.168.1.11:3000/websocket');
 
     dispatcher2.bind('updateStatus', update_status);
+    // dispatcher2.bind('send_status', send_status);
 
-    var channel = dispatcher2.subscribe('initiate');
+    window.channel = dispatcher2.subscribe('initiate');
+    channel.bind('recommendation', accept_recommend);
+    channel.bind('new_friend', new_friend);
+    var isOnline = false;
     channel.bind('chat_request', chat_request);
 
     function chat_request (id) {
@@ -32,8 +34,11 @@ $(function(){
              $('#chat_link'+data.id).attr('title', '');
              $('#chat_link'+data.id).attr('data-toggle', '');
              $('#chat_link'+data.id).tooltip('hide');
+             isOnline = false;
         } else {
             if($('#chat_link'+data.id).attr('title') != 'Online'){
+            // if(!isOnline){
+                 isOnline = true;
                  $('#chat_link'+data.id).html('<button class="btn btn-default btn-xs">Chat</button>');
                  $('#chat_link'+data.id).attr('data-toggle', 'tooltip');
                  $('#chat_link'+data.id).attr('title', 'Online');
@@ -41,9 +46,26 @@ $(function(){
                     'placement': 'right'
                  });
                  $('#chat_link'+data.id).tooltip('show');
+                 // $('.popover').popover('show');
             }
         }
     };
+
+    function accept_recommend(data){
+        if(data.id == currentUser.id){
+            $('.recommend').show();
+            $('.recommend').delay(5000).fadeOut('slow');
+        }
+    };
+
+    function new_friend(data){
+        if(data.id == currentUser.id){
+            $('.new_friend').show();
+            $('.new_friend').delay(5000).fadeOut('slow');
+        }
+    }
+
+    function send_status(){}
 
     var enableHandler = true;
     $(window).mousemove(function (e) {
@@ -54,11 +76,7 @@ $(function(){
         }
     });
 
-    var seconds = 0;
-
-    function sendStatus(data){
-        alert('It took you '+data+' seconds to move');
-    };  
+    var seconds = 0; 
 
     window.setInterval(function(){
         enableHandler = true;

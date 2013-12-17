@@ -43,6 +43,7 @@
                 $('#addFriend<%= r.user.id %>').modal('hide');
                 window.location = '/home';
             });
+            channel.trigger('new_friend', {id: id});
         });
     </script>
     <% else %>

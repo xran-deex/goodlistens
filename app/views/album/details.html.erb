@@ -1,14 +1,17 @@
 <div class='container'>
+
     <h1><%=  @album.title %></h1>
-    <div class='col-xs-12 col-md-7'>
-        <%= image_tag(@album.image(500), :class=> 'img-responsive') %>
+    <div class='col-xs-12 col-md-7' >
+        <%= image_tag(@album.image(500), :class=> 'img-responsive', :id=> 'image') %>
+        
     </div>
+    <input type='hidden' name='album' id='album_id' value='<%= @album.id %>'>
     <div class='col-md-5'>
         <h2><%= @album.artist.name %></h2>
         <% if user_signed_in? %> 
         
         <% end %>
-        <ul class='list-unstyled'>
+        <ul class='list-unstyled tracks'>
             <% @album.get_tracks.each_with_index do |t, i| %>
                 <li><%= (i+1).to_s + '. ' + t.title %></li>
             <% end %>
@@ -48,6 +51,9 @@
         </div>
         
     </div>
+
+
+
     <!-- Confirm file deletion -->
       <div class="modal fade" id='confirm_delete_dialog'>
         <div class="modal-dialog">
@@ -66,4 +72,31 @@
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
+
+    <!-- Recommendation dialog -->
+    <div class="modal fade" id='recommendation_dialog'>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Send Recommendation</h4>
+          </div>
+          <div class="modal-body">
+            <h5>Select the friends that you want to send this recommendation to:</h5>
+            <p id='modal_body'>
+                <ul class='list-unstyled'>
+                <% current_user.friends.each do |f| %>
+                <li><input type='checkbox' class='friends' value='<%= f.id %>'> <%= f.name %></li>
+                <% end %>
+                </ul>
+                Message: <input type='text' id='message' class='form-control'/>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id='send-recommend' data-id='1'>Send</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
